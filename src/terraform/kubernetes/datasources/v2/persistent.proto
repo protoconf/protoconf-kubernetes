@@ -1,0 +1,180 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.datasources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesPersistentVolumeClaim version is 0
+message KubernetesPersistentVolumeClaim {
+  string id = 1;
+
+  Metadata metadata = 2;
+
+  repeated Spec spec = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Metadata {
+    // An unstructured key value map stored with the persistent volume claim that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the persistent volume claim. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the persistent volume claim, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // Namespace defines the space within which name of the persistent volume claim must be unique.
+    string namespace = 6;
+
+    // An opaque value that represents the internal version of this persistent volume claim that can be used by clients to determine when persistent volume claim has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 7 [json_name = "resource_version"];
+
+    // The unique in time and space value for this persistent volume claim. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 8;
+  }
+
+  message Spec {
+    // A set of the desired access modes the volume should have. More info: http://kubernetes.io/docs/user-guide/persistent-volumes#access-modes-1
+    repeated string access_modes = 1 [json_name = "access_modes"];
+
+    // A list of the minimum resources the volume should have. More info: http://kubernetes.io/docs/user-guide/persistent-volumes#resources
+    repeated Resources resources = 2;
+
+    // Name of the storage class requested by the claim
+    string storage_class_name = 3 [json_name = "storage_class_name"];
+
+    // The binding reference to the PersistentVolume backing this claim.
+    string volume_name = 4 [json_name = "volume_name"];
+
+    repeated Selector selector = 5;
+
+    message Resources {
+      // limits: map of string
+      map<string, string> limits = 1;
+
+      // requests: map of string
+      map<string, string> requests = 2;
+    }
+
+    message Selector {
+      // A map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of `match_expressions`, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+      map<string, string> match_labels = 1 [json_name = "match_labels"];
+
+      repeated MatchExpressions match_expressions = 2 [json_name = "match_expressions"];
+
+      message MatchExpressions {
+        // The label key that the selector applies to.
+        string key = 1;
+
+        // A key's relationship to a set of values. Valid operators ard `In`, `NotIn`, `Exists` and `DoesNotExist`.
+        string operator = 2;
+
+        // An array of string values. If the operator is `In` or `NotIn`, the values array must be non-empty. If the operator is `Exists` or `DoesNotExist`, the values array must be empty. This array is replaced during a strategic merge patch.
+        repeated string values = 3;
+      }
+    }
+  }
+}
+
+// KubernetesPersistentVolumeClaimV1 version is 0
+message KubernetesPersistentVolumeClaimV1 {
+  string id = 1;
+
+  Metadata metadata = 2;
+
+  repeated Spec spec = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Metadata {
+    // An unstructured key value map stored with the persistent volume claim that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the persistent volume claim. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the persistent volume claim, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // Namespace defines the space within which name of the persistent volume claim must be unique.
+    string namespace = 6;
+
+    // An opaque value that represents the internal version of this persistent volume claim that can be used by clients to determine when persistent volume claim has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 7 [json_name = "resource_version"];
+
+    // The unique in time and space value for this persistent volume claim. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 8;
+  }
+
+  message Spec {
+    // A set of the desired access modes the volume should have. More info: http://kubernetes.io/docs/user-guide/persistent-volumes#access-modes-1
+    repeated string access_modes = 1 [json_name = "access_modes"];
+
+    // A list of the minimum resources the volume should have. More info: http://kubernetes.io/docs/user-guide/persistent-volumes#resources
+    repeated Resources resources = 2;
+
+    // Name of the storage class requested by the claim
+    string storage_class_name = 3 [json_name = "storage_class_name"];
+
+    // The binding reference to the PersistentVolume backing this claim.
+    string volume_name = 4 [json_name = "volume_name"];
+
+    repeated Selector selector = 5;
+
+    message Resources {
+      // limits: map of string
+      map<string, string> limits = 1;
+
+      // requests: map of string
+      map<string, string> requests = 2;
+    }
+
+    message Selector {
+      // A map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of `match_expressions`, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+      map<string, string> match_labels = 1 [json_name = "match_labels"];
+
+      repeated MatchExpressions match_expressions = 2 [json_name = "match_expressions"];
+
+      message MatchExpressions {
+        // The label key that the selector applies to.
+        string key = 1;
+
+        // A key's relationship to a set of values. Valid operators ard `In`, `NotIn`, `Exists` and `DoesNotExist`.
+        string operator = 2;
+
+        // An array of string values. If the operator is `In` or `NotIn`, the values array must be non-empty. If the operator is `Exists` or `DoesNotExist`, the values array must be empty. This array is replaced during a strategic merge patch.
+        repeated string values = 3;
+      }
+    }
+  }
+}

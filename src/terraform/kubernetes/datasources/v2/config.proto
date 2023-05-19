@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.datasources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesConfigMap version is 0
+message KubernetesConfigMap {
+  // A map of the config map binary data.
+  map<string, string> binary_data = 1 [json_name = "binary_data"];
+
+  // A map of the config map data.
+  map<string, string> data = 2;
+
+  string id = 3;
+
+  // Immutable, if set to true, ensures that data stored in the ConfigMap cannot be updated (only object metadata can be modified). If not set to true, the field can be modified at any time. Defaulted to nil.
+  bool immutable = 4;
+
+  Metadata metadata = 5;
+
+  map<string, string> for_each = 6 [json_name = "for_each"];
+
+  repeated string depends_on = 7 [json_name = "depends_on"];
+
+  int32 count = 8;
+
+  string provider = 9;
+
+  terraform.v1.Lifecycle lifecycle = 10;
+
+  message Metadata {
+    // An unstructured key value map stored with the config_map that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 2;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the config_map. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 3;
+
+    // Name of the config_map, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 4;
+
+    // Namespace defines the space within which name of the config_map must be unique.
+    string namespace = 5;
+
+    // An opaque value that represents the internal version of this config_map that can be used by clients to determine when config_map has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 6 [json_name = "resource_version"];
+
+    // The unique in time and space value for this config_map. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 7;
+  }
+}
+
+// KubernetesConfigMapV1 version is 0
+message KubernetesConfigMapV1 {
+  // A map of the config map binary data.
+  map<string, string> binary_data = 1 [json_name = "binary_data"];
+
+  // A map of the config map data.
+  map<string, string> data = 2;
+
+  string id = 3;
+
+  // Immutable, if set to true, ensures that data stored in the ConfigMap cannot be updated (only object metadata can be modified). If not set to true, the field can be modified at any time. Defaulted to nil.
+  bool immutable = 4;
+
+  Metadata metadata = 5;
+
+  map<string, string> for_each = 6 [json_name = "for_each"];
+
+  repeated string depends_on = 7 [json_name = "depends_on"];
+
+  int32 count = 8;
+
+  string provider = 9;
+
+  terraform.v1.Lifecycle lifecycle = 10;
+
+  message Metadata {
+    // An unstructured key value map stored with the config_map that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 2;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the config_map. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 3;
+
+    // Name of the config_map, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 4;
+
+    // Namespace defines the space within which name of the config_map must be unique.
+    string namespace = 5;
+
+    // An opaque value that represents the internal version of this config_map that can be used by clients to determine when config_map has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 6 [json_name = "resource_version"];
+
+    // The unique in time and space value for this config_map. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 7;
+  }
+}

@@ -1,0 +1,161 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.datasources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesMutatingWebhookConfigurationV1 version is 0
+message KubernetesMutatingWebhookConfigurationV1 {
+  string id = 1;
+
+  // Webhooks is a list of webhooks and the affected resources and operations.
+  repeated Webhook webhook = 2;
+
+  Metadata metadata = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Webhook {
+    // admission_review_versions: list of string
+    repeated string admission_review_versions = 1 [json_name = "admission_review_versions"];
+
+    // client_config: list of object
+    repeated ClientConfig client_config = 2 [json_name = "client_config"];
+
+    // failure_policy: string
+    string failure_policy = 3 [json_name = "failure_policy"];
+
+    // match_policy: string
+    string match_policy = 4 [json_name = "match_policy"];
+
+    // name: string
+    string name = 5;
+
+    // namespace_selector: list of object
+    repeated NamespaceSelector namespace_selector = 6 [json_name = "namespace_selector"];
+
+    // object_selector: list of object
+    repeated ObjectSelector object_selector = 7 [json_name = "object_selector"];
+
+    // reinvocation_policy: string
+    string reinvocation_policy = 8 [json_name = "reinvocation_policy"];
+
+    // rule: list of object
+    repeated Rule rule = 9;
+
+    // side_effects: string
+    string side_effects = 10 [json_name = "side_effects"];
+
+    // timeout_seconds: number
+    int64 timeout_seconds = 11 [json_name = "timeout_seconds"];
+
+    message ClientConfig {
+      // ca_bundle: string
+      string ca_bundle = 1 [json_name = "ca_bundle"];
+
+      // service: list of object
+      repeated Service service = 2;
+
+      // url: string
+      string url = 3;
+
+      message Service {
+        // name: string
+        string name = 1;
+
+        // namespace: string
+        string namespace = 2;
+
+        // path: string
+        string path = 3;
+
+        // port: number
+        int64 port = 4;
+      }
+    }
+
+    message NamespaceSelector {
+      // match_expressions: list of object
+      repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+      // match_labels: map of string
+      map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+      message MatchExpressions {
+        // key: string
+        string key = 1;
+
+        // operator: string
+        string operator = 2;
+
+        // values: set of string
+        repeated string values = 3;
+      }
+    }
+
+    message ObjectSelector {
+      // match_expressions: list of object
+      repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+      // match_labels: map of string
+      map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+      message MatchExpressions {
+        // key: string
+        string key = 1;
+
+        // operator: string
+        string operator = 2;
+
+        // values: set of string
+        repeated string values = 3;
+      }
+    }
+
+    message Rule {
+      // api_groups: list of string
+      repeated string api_groups = 1 [json_name = "api_groups"];
+
+      // api_versions: list of string
+      repeated string api_versions = 2 [json_name = "api_versions"];
+
+      // operations: list of string
+      repeated string operations = 3;
+
+      // resources: list of string
+      repeated string resources = 4;
+
+      // scope: string
+      string scope = 5;
+    }
+  }
+
+  message Metadata {
+    // An unstructured key value map stored with the mutating webhook configuration that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 2;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the mutating webhook configuration. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 3;
+
+    // Name of the mutating webhook configuration, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 4;
+
+    // An opaque value that represents the internal version of this mutating webhook configuration that can be used by clients to determine when mutating webhook configuration has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 5 [json_name = "resource_version"];
+
+    // The unique in time and space value for this mutating webhook configuration. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 6;
+  }
+}

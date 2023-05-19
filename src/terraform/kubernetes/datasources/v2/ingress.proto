@@ -1,0 +1,307 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.datasources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesIngress version is 0
+message KubernetesIngress {
+  string id = 1;
+
+  // Spec is the desired state of the Ingress. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+  repeated Spec spec = 2;
+
+  repeated Status status = 3;
+
+  Metadata metadata = 4;
+
+  map<string, string> for_each = 5 [json_name = "for_each"];
+
+  repeated string depends_on = 6 [json_name = "depends_on"];
+
+  int32 count = 7;
+
+  string provider = 8;
+
+  terraform.v1.Lifecycle lifecycle = 9;
+
+  message Spec {
+    // backend: list of object
+    repeated Backend backend = 1;
+
+    // ingress_class_name: string
+    string ingress_class_name = 2 [json_name = "ingress_class_name"];
+
+    // rule: list of object
+    repeated Rule rule = 3;
+
+    // tls: list of object
+    repeated Tls tls = 4;
+
+    message Backend {
+      // service_name: string
+      string service_name = 1 [json_name = "service_name"];
+
+      // service_port: string
+      string service_port = 2 [json_name = "service_port"];
+    }
+
+    message Rule {
+      // host: string
+      string host = 1;
+
+      // http: list of object
+      repeated Http http = 2;
+
+      message Http {
+        // path: list of object
+        repeated Path path = 1;
+
+        message Path {
+          // backend: list of object
+          repeated Backend backend = 1;
+
+          // path: string
+          string path = 2;
+
+          message Backend {
+            // service_name: string
+            string service_name = 1 [json_name = "service_name"];
+
+            // service_port: string
+            string service_port = 2 [json_name = "service_port"];
+          }
+        }
+      }
+    }
+
+    message Tls {
+      // hosts: list of string
+      repeated string hosts = 1;
+
+      // secret_name: string
+      string secret_name = 2 [json_name = "secret_name"];
+    }
+  }
+
+  message Status {
+    // load_balancer: list of object
+    repeated LoadBalancer load_balancer = 1 [json_name = "load_balancer"];
+
+    message LoadBalancer {
+      // ingress: list of object
+      repeated Ingress ingress = 1;
+
+      message Ingress {
+        // hostname: string
+        string hostname = 1;
+
+        // ip: string
+        string ip = 2;
+      }
+    }
+  }
+
+  message Metadata {
+    // An unstructured key value map stored with the ingress that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 2;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the ingress. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 3;
+
+    // Name of the ingress, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 4;
+
+    // Namespace defines the space within which name of the ingress must be unique.
+    string namespace = 5;
+
+    // An opaque value that represents the internal version of this ingress that can be used by clients to determine when ingress has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 6 [json_name = "resource_version"];
+
+    // The unique in time and space value for this ingress. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 7;
+  }
+}
+
+// KubernetesIngressV1 version is 0
+message KubernetesIngressV1 {
+  string id = 1;
+
+  // Spec is the desired state of the Ingress. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+  repeated Spec spec = 2;
+
+  repeated Status status = 3;
+
+  Metadata metadata = 4;
+
+  map<string, string> for_each = 5 [json_name = "for_each"];
+
+  repeated string depends_on = 6 [json_name = "depends_on"];
+
+  int32 count = 7;
+
+  string provider = 8;
+
+  terraform.v1.Lifecycle lifecycle = 9;
+
+  message Spec {
+    // default_backend: list of object
+    repeated DefaultBackend default_backend = 1 [json_name = "default_backend"];
+
+    // ingress_class_name: string
+    string ingress_class_name = 2 [json_name = "ingress_class_name"];
+
+    // rule: list of object
+    repeated Rule rule = 3;
+
+    // tls: list of object
+    repeated Tls tls = 4;
+
+    message DefaultBackend {
+      // resource: list of object
+      repeated Resource resource = 1;
+
+      // service: list of object
+      repeated Service service = 2;
+
+      message Resource {
+        // api_group: string
+        string api_group = 1 [json_name = "api_group"];
+
+        // kind: string
+        string kind = 2;
+
+        // name: string
+        string name = 3;
+      }
+
+      message Service {
+        // name: string
+        string name = 1;
+
+        // port: list of object
+        repeated Port port = 2;
+
+        message Port {
+          // name: string
+          string name = 1;
+
+          // number: number
+          int64 number = 2;
+        }
+      }
+    }
+
+    message Rule {
+      // host: string
+      string host = 1;
+
+      // http: list of object
+      repeated Http http = 2;
+
+      message Http {
+        // path: list of object
+        repeated Path path = 1;
+
+        message Path {
+          // backend: list of object
+          repeated Backend backend = 1;
+
+          // path: string
+          string path = 2;
+
+          // path_type: string
+          string path_type = 3 [json_name = "path_type"];
+
+          message Backend {
+            // resource: list of object
+            repeated Resource resource = 1;
+
+            // service: list of object
+            repeated Service service = 2;
+
+            message Resource {
+              // api_group: string
+              string api_group = 1 [json_name = "api_group"];
+
+              // kind: string
+              string kind = 2;
+
+              // name: string
+              string name = 3;
+            }
+
+            message Service {
+              // name: string
+              string name = 1;
+
+              // port: list of object
+              repeated Port port = 2;
+
+              message Port {
+                // name: string
+                string name = 1;
+
+                // number: number
+                int64 number = 2;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    message Tls {
+      // hosts: list of string
+      repeated string hosts = 1;
+
+      // secret_name: string
+      string secret_name = 2 [json_name = "secret_name"];
+    }
+  }
+
+  message Status {
+    // load_balancer: list of object
+    repeated LoadBalancer load_balancer = 1 [json_name = "load_balancer"];
+
+    message LoadBalancer {
+      // ingress: list of object
+      repeated Ingress ingress = 1;
+
+      message Ingress {
+        // hostname: string
+        string hostname = 1;
+
+        // ip: string
+        string ip = 2;
+      }
+    }
+  }
+
+  message Metadata {
+    // An unstructured key value map stored with the ingress that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 2;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the ingress. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 3;
+
+    // Name of the ingress, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 4;
+
+    // Namespace defines the space within which name of the ingress must be unique.
+    string namespace = 5;
+
+    // An opaque value that represents the internal version of this ingress that can be used by clients to determine when ingress has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 6 [json_name = "resource_version"];
+
+    // The unique in time and space value for this ingress. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 7;
+  }
+}

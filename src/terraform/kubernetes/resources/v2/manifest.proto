@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.resources.v2;
+
+import "google/protobuf/struct.proto";
+
+import "terraform/v1/meta.proto";
+
+// KubernetesManifest version is 1
+message KubernetesManifest {
+  // List of manifest fields whose values can be altered by the API server during 'apply'. Defaults to: ["metadata.annotations", "metadata.labels"]
+  repeated string computed_fields = 1 [json_name = "computed_fields"];
+
+  // A Kubernetes manifest describing the desired state of the resource in HCL format.
+  google.protobuf.Value manifest = 2;
+
+  // The resulting resource state, as returned by the API server after applying the desired state from `manifest`.
+  google.protobuf.Value object = 3;
+
+  // A map of attribute paths and desired patterns to be matched. After each apply the provider will wait for all attributes listed here to reach a value that matches the desired pattern.
+  WaitFor wait_for = 4 [json_name = "wait_for"];
+
+  FieldManager field_manager = 5 [json_name = "field_manager"];
+
+  Timeouts timeouts = 6;
+
+  Wait wait = 7;
+
+  map<string, string> for_each = 8 [json_name = "for_each"];
+
+  repeated string depends_on = 9 [json_name = "depends_on"];
+
+  int32 count = 10;
+
+  string provider = 11;
+
+  terraform.v1.Lifecycle lifecycle = 12;
+
+  message WaitFor {
+    // fields: map of string
+    map<string, string> fields = 1;
+  }
+
+  message FieldManager {
+    // Force changes against conflicts.
+    bool force_conflicts = 1 [json_name = "force_conflicts"];
+
+    // The name to use for the field manager when creating and updating the resource.
+    string name = 2;
+  }
+
+  message Timeouts {
+    // Timeout for the create operation.
+    string create = 1;
+
+    // Timeout for the delete operation.
+    string delete = 2;
+
+    // Timeout for the update operation.
+    string update = 3;
+  }
+
+  message Wait {
+    // A map of paths to fields to wait for a specific field value.
+    map<string, string> fields = 1;
+
+    // Wait for rollout to complete on resources that support `kubectl rollout status`.
+    bool rollout = 2;
+
+    repeated Condition condition = 3;
+
+    message Condition {
+      // The condition status.
+      string status = 1;
+
+      // The type of condition.
+      string type = 2;
+    }
+  }
+}

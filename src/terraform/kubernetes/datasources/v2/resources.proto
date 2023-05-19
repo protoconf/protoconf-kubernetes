@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.datasources.v2;
+
+import "google/protobuf/struct.proto";
+
+import "terraform/v1/meta.proto";
+
+// KubernetesResources version is 1
+message KubernetesResources {
+  // The resource apiVersion.
+  string api_version = 1 [json_name = "api_version"];
+
+  // A selector to restrict the list of returned objects by their fields.
+  string field_selector = 2 [json_name = "field_selector"];
+
+  // The resource kind.
+  string kind = 3;
+
+  // A selector to restrict the list of returned objects by their labels.
+  string label_selector = 4 [json_name = "label_selector"];
+
+  // Limit is a maximum number of responses to return for a list call.
+  int64 limit = 5;
+
+  // The resource namespace.
+  string namespace = 6;
+
+  // The response from the API server.
+  google.protobuf.Value objects = 7;
+
+  map<string, string> for_each = 8 [json_name = "for_each"];
+
+  repeated string depends_on = 9 [json_name = "depends_on"];
+
+  int32 count = 10;
+
+  string provider = 11;
+
+  terraform.v1.Lifecycle lifecycle = 12;
+}

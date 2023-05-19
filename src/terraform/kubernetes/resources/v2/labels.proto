@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.resources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesLabels version is 0
+message KubernetesLabels {
+  // The apiVersion of the resource to label.
+  string api_version = 1 [json_name = "api_version"];
+
+  // Set the name of the field manager for the specified labels.
+  string field_manager = 2 [json_name = "field_manager"];
+
+  // Force overwriting labels that were created or edited outside of Terraform.
+  bool force = 3;
+
+  string id = 4;
+
+  // The kind of the resource to label.
+  string kind = 5;
+
+  // A map of labels to apply to the resource.
+  map<string, string> labels = 6;
+
+  Metadata metadata = 7;
+
+  map<string, string> for_each = 8 [json_name = "for_each"];
+
+  repeated string depends_on = 9 [json_name = "depends_on"];
+
+  int32 count = 10;
+
+  string provider = 11;
+
+  terraform.v1.Lifecycle lifecycle = 12;
+
+  message Metadata {
+    // The name of the resource.
+    string name = 1;
+
+    // The namespace of the resource.
+    string namespace = 2;
+  }
+}

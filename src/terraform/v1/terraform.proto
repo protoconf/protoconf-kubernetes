@@ -1,0 +1,493 @@
+syntax = "proto3";
+
+package terraform.v1;
+
+import "google/protobuf/struct.proto";
+
+import "terraform/kubernetes/datasources/v2/all.proto";
+
+import "terraform/kubernetes/datasources/v2/config.proto";
+
+import "terraform/kubernetes/datasources/v2/endpoints.proto";
+
+import "terraform/kubernetes/datasources/v2/ingress.proto";
+
+import "terraform/kubernetes/datasources/v2/mutating.proto";
+
+import "terraform/kubernetes/datasources/v2/namespace.proto";
+
+import "terraform/kubernetes/datasources/v2/nodes.proto";
+
+import "terraform/kubernetes/datasources/v2/persistent.proto";
+
+import "terraform/kubernetes/datasources/v2/pod.proto";
+
+import "terraform/kubernetes/datasources/v2/resource.proto";
+
+import "terraform/kubernetes/datasources/v2/resources.proto";
+
+import "terraform/kubernetes/datasources/v2/secret.proto";
+
+import "terraform/kubernetes/datasources/v2/service.proto";
+
+import "terraform/kubernetes/datasources/v2/storage.proto";
+
+import "terraform/kubernetes/provider/v2/kubernetes.proto";
+
+import "terraform/kubernetes/resources/v2/annotations.proto";
+
+import "terraform/kubernetes/resources/v2/api.proto";
+
+import "terraform/kubernetes/resources/v2/certificate.proto";
+
+import "terraform/kubernetes/resources/v2/cluster.proto";
+
+import "terraform/kubernetes/resources/v2/config.proto";
+
+import "terraform/kubernetes/resources/v2/cron.proto";
+
+import "terraform/kubernetes/resources/v2/csi.proto";
+
+import "terraform/kubernetes/resources/v2/daemon.proto";
+
+import "terraform/kubernetes/resources/v2/daemonset.proto";
+
+import "terraform/kubernetes/resources/v2/default.proto";
+
+import "terraform/kubernetes/resources/v2/deployment.proto";
+
+import "terraform/kubernetes/resources/v2/endpoints.proto";
+
+import "terraform/kubernetes/resources/v2/env.proto";
+
+import "terraform/kubernetes/resources/v2/horizontal.proto";
+
+import "terraform/kubernetes/resources/v2/ingress.proto";
+
+import "terraform/kubernetes/resources/v2/job.proto";
+
+import "terraform/kubernetes/resources/v2/labels.proto";
+
+import "terraform/kubernetes/resources/v2/limit.proto";
+
+import "terraform/kubernetes/resources/v2/manifest.proto";
+
+import "terraform/kubernetes/resources/v2/mutating.proto";
+
+import "terraform/kubernetes/resources/v2/namespace.proto";
+
+import "terraform/kubernetes/resources/v2/network.proto";
+
+import "terraform/kubernetes/resources/v2/node.proto";
+
+import "terraform/kubernetes/resources/v2/persistent.proto";
+
+import "terraform/kubernetes/resources/v2/pod.proto";
+
+import "terraform/kubernetes/resources/v2/priority.proto";
+
+import "terraform/kubernetes/resources/v2/replication.proto";
+
+import "terraform/kubernetes/resources/v2/resource.proto";
+
+import "terraform/kubernetes/resources/v2/role.proto";
+
+import "terraform/kubernetes/resources/v2/secret.proto";
+
+import "terraform/kubernetes/resources/v2/service.proto";
+
+import "terraform/kubernetes/resources/v2/stateful.proto";
+
+import "terraform/kubernetes/resources/v2/storage.proto";
+
+import "terraform/kubernetes/resources/v2/token.proto";
+
+import "terraform/kubernetes/resources/v2/validating.proto";
+
+message Terraform {
+  Resources resource = 1;
+
+  Datasources data = 2;
+
+  Providers provider = 3;
+
+  map<string, Variable> variable = 4;
+
+  map<string, Output> output = 5;
+
+  map<string, string> locals = 6;
+
+  map<string, google.protobuf.Struct> module = 7;
+
+  TerraformSettings terraform = 8;
+
+  message Resources {
+    map<string, terraform.kubernetes.resources.v2.KubernetesAnnotations> kubernetes_annotations = 1 [json_name = "kubernetes_annotations"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesApiService> kubernetes_api_service = 2 [json_name = "kubernetes_api_service"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesApiServiceV1> kubernetes_api_service_v1 = 3 [json_name = "kubernetes_api_service_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesCertificateSigningRequest> kubernetes_certificate_signing_request = 4 [
+      json_name = "kubernetes_certificate_signing_request"
+    ];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesCertificateSigningRequestV1> kubernetes_certificate_signing_request_v1 = 5 [
+      json_name = "kubernetes_certificate_signing_request_v1"
+    ];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesClusterRole> kubernetes_cluster_role = 6 [json_name = "kubernetes_cluster_role"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesClusterRoleBinding> kubernetes_cluster_role_binding = 7 [json_name = "kubernetes_cluster_role_binding"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesClusterRoleBindingV1> kubernetes_cluster_role_binding_v1 = 8 [json_name = "kubernetes_cluster_role_binding_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesClusterRoleV1> kubernetes_cluster_role_v1 = 9 [json_name = "kubernetes_cluster_role_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesConfigMap> kubernetes_config_map = 10 [json_name = "kubernetes_config_map"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesConfigMapV1> kubernetes_config_map_v1 = 11 [json_name = "kubernetes_config_map_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesConfigMapV1Data> kubernetes_config_map_v1_data = 12 [json_name = "kubernetes_config_map_v1_data"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesCronJob> kubernetes_cron_job = 13 [json_name = "kubernetes_cron_job"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesCronJobV1> kubernetes_cron_job_v1 = 14 [json_name = "kubernetes_cron_job_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesCsiDriver> kubernetes_csi_driver = 15 [json_name = "kubernetes_csi_driver"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesCsiDriverV1> kubernetes_csi_driver_v1 = 16 [json_name = "kubernetes_csi_driver_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesDaemonSetV1> kubernetes_daemon_set_v1 = 17 [json_name = "kubernetes_daemon_set_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesDaemonset> kubernetes_daemonset = 18 [json_name = "kubernetes_daemonset"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesDefaultServiceAccount> kubernetes_default_service_account = 19 [json_name = "kubernetes_default_service_account"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesDefaultServiceAccountV1> kubernetes_default_service_account_v1 = 20 [
+      json_name = "kubernetes_default_service_account_v1"
+    ];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesDeployment> kubernetes_deployment = 21 [json_name = "kubernetes_deployment"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesDeploymentV1> kubernetes_deployment_v1 = 22 [json_name = "kubernetes_deployment_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesEndpoints> kubernetes_endpoints = 23 [json_name = "kubernetes_endpoints"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesEndpointsV1> kubernetes_endpoints_v1 = 24 [json_name = "kubernetes_endpoints_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesEnv> kubernetes_env = 25 [json_name = "kubernetes_env"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesHorizontalPodAutoscaler> kubernetes_horizontal_pod_autoscaler = 26 [json_name = "kubernetes_horizontal_pod_autoscaler"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesHorizontalPodAutoscalerV1> kubernetes_horizontal_pod_autoscaler_v1 = 27 [
+      json_name = "kubernetes_horizontal_pod_autoscaler_v1"
+    ];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesHorizontalPodAutoscalerV2> kubernetes_horizontal_pod_autoscaler_v2 = 28 [
+      json_name = "kubernetes_horizontal_pod_autoscaler_v2"
+    ];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesHorizontalPodAutoscalerV2beta2> kubernetes_horizontal_pod_autoscaler_v2beta2 = 29 [
+      json_name = "kubernetes_horizontal_pod_autoscaler_v2beta2"
+    ];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesIngress> kubernetes_ingress = 30 [json_name = "kubernetes_ingress"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesIngressClass> kubernetes_ingress_class = 31 [json_name = "kubernetes_ingress_class"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesIngressClassV1> kubernetes_ingress_class_v1 = 32 [json_name = "kubernetes_ingress_class_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesIngressV1> kubernetes_ingress_v1 = 33 [json_name = "kubernetes_ingress_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesJob> kubernetes_job = 34 [json_name = "kubernetes_job"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesJobV1> kubernetes_job_v1 = 35 [json_name = "kubernetes_job_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesLabels> kubernetes_labels = 36 [json_name = "kubernetes_labels"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesLimitRange> kubernetes_limit_range = 37 [json_name = "kubernetes_limit_range"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesLimitRangeV1> kubernetes_limit_range_v1 = 38 [json_name = "kubernetes_limit_range_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesManifest> kubernetes_manifest = 39 [json_name = "kubernetes_manifest"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesMutatingWebhookConfiguration> kubernetes_mutating_webhook_configuration = 40 [
+      json_name = "kubernetes_mutating_webhook_configuration"
+    ];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesMutatingWebhookConfigurationV1> kubernetes_mutating_webhook_configuration_v1 = 41 [
+      json_name = "kubernetes_mutating_webhook_configuration_v1"
+    ];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesNamespace> kubernetes_namespace = 42 [json_name = "kubernetes_namespace"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesNamespaceV1> kubernetes_namespace_v1 = 43 [json_name = "kubernetes_namespace_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesNetworkPolicy> kubernetes_network_policy = 44 [json_name = "kubernetes_network_policy"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesNetworkPolicyV1> kubernetes_network_policy_v1 = 45 [json_name = "kubernetes_network_policy_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesNodeTaint> kubernetes_node_taint = 46 [json_name = "kubernetes_node_taint"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPersistentVolume> kubernetes_persistent_volume = 47 [json_name = "kubernetes_persistent_volume"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPersistentVolumeClaim> kubernetes_persistent_volume_claim = 48 [json_name = "kubernetes_persistent_volume_claim"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPersistentVolumeClaimV1> kubernetes_persistent_volume_claim_v1 = 49 [
+      json_name = "kubernetes_persistent_volume_claim_v1"
+    ];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPersistentVolumeV1> kubernetes_persistent_volume_v1 = 50 [json_name = "kubernetes_persistent_volume_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPod> kubernetes_pod = 51 [json_name = "kubernetes_pod"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPodDisruptionBudget> kubernetes_pod_disruption_budget = 52 [json_name = "kubernetes_pod_disruption_budget"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPodDisruptionBudgetV1> kubernetes_pod_disruption_budget_v1 = 53 [json_name = "kubernetes_pod_disruption_budget_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPodSecurityPolicy> kubernetes_pod_security_policy = 54 [json_name = "kubernetes_pod_security_policy"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPodSecurityPolicyV1beta1> kubernetes_pod_security_policy_v1beta1 = 55 [
+      json_name = "kubernetes_pod_security_policy_v1beta1"
+    ];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPodV1> kubernetes_pod_v1 = 56 [json_name = "kubernetes_pod_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPriorityClass> kubernetes_priority_class = 57 [json_name = "kubernetes_priority_class"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesPriorityClassV1> kubernetes_priority_class_v1 = 58 [json_name = "kubernetes_priority_class_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesReplicationController> kubernetes_replication_controller = 59 [json_name = "kubernetes_replication_controller"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesReplicationControllerV1> kubernetes_replication_controller_v1 = 60 [json_name = "kubernetes_replication_controller_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesResourceQuota> kubernetes_resource_quota = 61 [json_name = "kubernetes_resource_quota"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesResourceQuotaV1> kubernetes_resource_quota_v1 = 62 [json_name = "kubernetes_resource_quota_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesRole> kubernetes_role = 63 [json_name = "kubernetes_role"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesRoleBinding> kubernetes_role_binding = 64 [json_name = "kubernetes_role_binding"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesRoleBindingV1> kubernetes_role_binding_v1 = 65 [json_name = "kubernetes_role_binding_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesRoleV1> kubernetes_role_v1 = 66 [json_name = "kubernetes_role_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesSecret> kubernetes_secret = 67 [json_name = "kubernetes_secret"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesSecretV1> kubernetes_secret_v1 = 68 [json_name = "kubernetes_secret_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesService> kubernetes_service = 69 [json_name = "kubernetes_service"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesServiceAccount> kubernetes_service_account = 70 [json_name = "kubernetes_service_account"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesServiceAccountV1> kubernetes_service_account_v1 = 71 [json_name = "kubernetes_service_account_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesServiceV1> kubernetes_service_v1 = 72 [json_name = "kubernetes_service_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesStatefulSet> kubernetes_stateful_set = 73 [json_name = "kubernetes_stateful_set"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesStatefulSetV1> kubernetes_stateful_set_v1 = 74 [json_name = "kubernetes_stateful_set_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesStorageClass> kubernetes_storage_class = 75 [json_name = "kubernetes_storage_class"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesStorageClassV1> kubernetes_storage_class_v1 = 76 [json_name = "kubernetes_storage_class_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesTokenRequestV1> kubernetes_token_request_v1 = 77 [json_name = "kubernetes_token_request_v1"];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesValidatingWebhookConfiguration> kubernetes_validating_webhook_configuration = 78 [
+      json_name = "kubernetes_validating_webhook_configuration"
+    ];
+
+    map<string, terraform.kubernetes.resources.v2.KubernetesValidatingWebhookConfigurationV1> kubernetes_validating_webhook_configuration_v1 = 79 [
+      json_name = "kubernetes_validating_webhook_configuration_v1"
+    ];
+  }
+
+  message Datasources {
+    map<string, terraform.kubernetes.datasources.v2.KubernetesAllNamespaces> kubernetes_all_namespaces = 1 [json_name = "kubernetes_all_namespaces"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesConfigMap> kubernetes_config_map = 2 [json_name = "kubernetes_config_map"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesConfigMapV1> kubernetes_config_map_v1 = 3 [json_name = "kubernetes_config_map_v1"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesEndpointsV1> kubernetes_endpoints_v1 = 4 [json_name = "kubernetes_endpoints_v1"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesIngress> kubernetes_ingress = 5 [json_name = "kubernetes_ingress"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesIngressV1> kubernetes_ingress_v1 = 6 [json_name = "kubernetes_ingress_v1"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesMutatingWebhookConfigurationV1> kubernetes_mutating_webhook_configuration_v1 = 7 [
+      json_name = "kubernetes_mutating_webhook_configuration_v1"
+    ];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesNamespace> kubernetes_namespace = 8 [json_name = "kubernetes_namespace"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesNamespaceV1> kubernetes_namespace_v1 = 9 [json_name = "kubernetes_namespace_v1"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesNodes> kubernetes_nodes = 10 [json_name = "kubernetes_nodes"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesPersistentVolumeClaim> kubernetes_persistent_volume_claim = 11 [json_name = "kubernetes_persistent_volume_claim"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesPersistentVolumeClaimV1> kubernetes_persistent_volume_claim_v1 = 12 [
+      json_name = "kubernetes_persistent_volume_claim_v1"
+    ];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesPod> kubernetes_pod = 13 [json_name = "kubernetes_pod"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesPodV1> kubernetes_pod_v1 = 14 [json_name = "kubernetes_pod_v1"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesResource> kubernetes_resource = 15 [json_name = "kubernetes_resource"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesResources> kubernetes_resources = 16 [json_name = "kubernetes_resources"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesSecret> kubernetes_secret = 17 [json_name = "kubernetes_secret"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesSecretV1> kubernetes_secret_v1 = 18 [json_name = "kubernetes_secret_v1"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesService> kubernetes_service = 19 [json_name = "kubernetes_service"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesServiceAccount> kubernetes_service_account = 20 [json_name = "kubernetes_service_account"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesServiceAccountV1> kubernetes_service_account_v1 = 21 [json_name = "kubernetes_service_account_v1"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesServiceV1> kubernetes_service_v1 = 22 [json_name = "kubernetes_service_v1"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesStorageClass> kubernetes_storage_class = 23 [json_name = "kubernetes_storage_class"];
+
+    map<string, terraform.kubernetes.datasources.v2.KubernetesStorageClassV1> kubernetes_storage_class_v1 = 24 [json_name = "kubernetes_storage_class_v1"];
+  }
+
+  message Providers {
+    repeated terraform.kubernetes.provider.v2.Kubernetes kubernetes = 1;
+  }
+
+  message Variable {
+    string type = 1;
+
+    string description = 2;
+
+    string default = 3;
+  }
+
+  message Output {
+    string value = 1;
+  }
+
+  message TerraformSettings {
+    string required_version = 1 [json_name = "required_version"];
+
+    map<string, Provider> required_providers = 2 [json_name = "required_providers"];
+
+    Backend backend = 3;
+
+    message Provider {
+      string source = 1;
+
+      string version = 2;
+    }
+
+    message Backend {
+      oneof config {
+        BackendLocal local = 1;
+
+        BackendRemote remote = 2;
+
+        BackendS3 s3 = 3;
+      }
+
+      message BackendLocal {
+        string path = 1;
+
+        string workspace_dir = 2 [json_name = "workspace_dir"];
+      }
+
+      message BackendRemote {
+        // (Optional) The remote backend hostname to connect to. Defaults to app.terraform.io.
+        string hostname = 1;
+
+        // (Required) The name of the organization containing the targeted workspace(s).
+        string organization = 2;
+
+        // (Optional) The token used to authenticate with the remote backend. We recommend omitting the token from the configuration, and instead using `terraform login` or manually configuring `credentials` in the CLI config file.
+        string token = 3;
+
+        // (Required) A block specifying which remote workspace(s) to use. The workspaces block supports the following keys
+        Workspace workspaces = 4;
+
+        message Workspace {
+          // (Optional) The full name of one remote workspace. When configured, only the default workspace can be used. This option conflicts with prefix.
+          string name = 1;
+
+          // (Optional) A prefix used in the names of one or more remote workspaces, all of which can be used with this configuration. The full workspace names are used in Terraform Cloud, and the short names (minus the prefix) are used on the command line for Terraform CLI workspaces. If omitted, only the default workspace can be used. This option conflicts with name.
+          string prefix = 2;
+        }
+      }
+
+      message BackendS3 {
+        string region = 1;
+
+        string access_key = 2 [json_name = "access_key"];
+
+        string secret_key = 3 [json_name = "secret_key"];
+
+        string iam_endpoint = 4 [json_name = "iam_endpoint"];
+
+        string max_retries = 5 [json_name = "max_retries"];
+
+        string profile = 6;
+
+        string shared_credentials_file = 7 [json_name = "shared_credentials_file"];
+
+        string skip_credentials_validation = 8 [json_name = "skip_credentials_validation"];
+
+        string skip_region_validation = 9 [json_name = "skip_region_validation"];
+
+        string skip_metadata_api_check = 10 [json_name = "skip_metadata_api_check"];
+
+        string sts_endpoint = 11 [json_name = "sts_endpoint"];
+
+        string token = 12;
+
+        string assume_role_duration_seconds = 13 [json_name = "assume_role_duration_seconds"];
+
+        string assume_role_policy = 14 [json_name = "assume_role_policy"];
+
+        string assume_role_policy_arns = 15 [json_name = "assume_role_policy_arns"];
+
+        string assume_role_tags = 16 [json_name = "assume_role_tags"];
+
+        string assume_role_transitive_tag_keys = 17 [json_name = "assume_role_transitive_tag_keys"];
+
+        string external_id = 18 [json_name = "external_id"];
+
+        string role_arn = 19 [json_name = "role_arn"];
+
+        string session_name = 20 [json_name = "session_name"];
+
+        string bucket = 21;
+
+        string key = 22;
+
+        string acl = 23;
+
+        string encrypt = 24;
+
+        string endpoint = 25;
+
+        string force_path_style = 26 [json_name = "force_path_style"];
+
+        string kms_key_id = 27 [json_name = "kms_key_id"];
+
+        string sse_customer_key = 28 [json_name = "sse_customer_key"];
+
+        string workspace_key_prefix = 29 [json_name = "workspace_key_prefix"];
+
+        string dynamodb_endpoint = 30 [json_name = "dynamodb_endpoint"];
+
+        string dynamodb_table = 31 [json_name = "dynamodb_table"];
+      }
+    }
+  }
+}

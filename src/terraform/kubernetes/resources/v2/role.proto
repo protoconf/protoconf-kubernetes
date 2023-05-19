@@ -1,0 +1,268 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.resources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesRole version is 0
+message KubernetesRole {
+  string id = 1;
+
+  Metadata metadata = 2;
+
+  repeated Rule rule = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Metadata {
+    // An unstructured key value map stored with the role that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the role. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the role, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // Namespace defines the space within which name of the role must be unique.
+    string namespace = 6;
+
+    // An opaque value that represents the internal version of this role that can be used by clients to determine when role has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 7 [json_name = "resource_version"];
+
+    // The unique in time and space value for this role. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 8;
+  }
+
+  message Rule {
+    // Name of the APIGroup that contains the resources
+    repeated string api_groups = 1 [json_name = "api_groups"];
+
+    // White list of names that the rule applies to
+    repeated string resource_names = 2 [json_name = "resource_names"];
+
+    // List of resources that the rule applies to
+    repeated string resources = 3;
+
+    // List of Verbs that apply to ALL the ResourceKinds and AttributeRestrictions contained in this rule
+    repeated string verbs = 4;
+  }
+}
+
+// KubernetesRoleBinding version is 0
+message KubernetesRoleBinding {
+  string id = 1;
+
+  Metadata metadata = 2;
+
+  RoleRef role_ref = 3 [json_name = "role_ref"];
+
+  repeated Subject subject = 4;
+
+  map<string, string> for_each = 5 [json_name = "for_each"];
+
+  repeated string depends_on = 6 [json_name = "depends_on"];
+
+  int32 count = 7;
+
+  string provider = 8;
+
+  terraform.v1.Lifecycle lifecycle = 9;
+
+  message Metadata {
+    // An unstructured key value map stored with the roleBinding that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the roleBinding. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the roleBinding, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // Namespace defines the space within which name of the roleBinding must be unique.
+    string namespace = 6;
+
+    // An opaque value that represents the internal version of this roleBinding that can be used by clients to determine when roleBinding has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 7 [json_name = "resource_version"];
+
+    // The unique in time and space value for this roleBinding. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 8;
+  }
+
+  message RoleRef {
+    // The API group of the user. The only value possible at the moment is `rbac.authorization.k8s.io`.
+    string api_group = 1 [json_name = "api_group"];
+
+    // The kind of resource.
+    string kind = 2;
+
+    // The name of the User to bind to.
+    string name = 3;
+  }
+
+  message Subject {
+    // The API group of the subject resource.
+    string api_group = 1 [json_name = "api_group"];
+
+    // The kind of resource.
+    string kind = 2;
+
+    // The name of the resource to bind to.
+    string name = 3;
+
+    // The Namespace of the subject resource.
+    string namespace = 4;
+  }
+}
+
+// KubernetesRoleBindingV1 version is 0
+message KubernetesRoleBindingV1 {
+  string id = 1;
+
+  Metadata metadata = 2;
+
+  RoleRef role_ref = 3 [json_name = "role_ref"];
+
+  repeated Subject subject = 4;
+
+  map<string, string> for_each = 5 [json_name = "for_each"];
+
+  repeated string depends_on = 6 [json_name = "depends_on"];
+
+  int32 count = 7;
+
+  string provider = 8;
+
+  terraform.v1.Lifecycle lifecycle = 9;
+
+  message Metadata {
+    // An unstructured key value map stored with the roleBinding that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the roleBinding. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the roleBinding, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // Namespace defines the space within which name of the roleBinding must be unique.
+    string namespace = 6;
+
+    // An opaque value that represents the internal version of this roleBinding that can be used by clients to determine when roleBinding has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 7 [json_name = "resource_version"];
+
+    // The unique in time and space value for this roleBinding. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 8;
+  }
+
+  message RoleRef {
+    // The API group of the user. The only value possible at the moment is `rbac.authorization.k8s.io`.
+    string api_group = 1 [json_name = "api_group"];
+
+    // The kind of resource.
+    string kind = 2;
+
+    // The name of the User to bind to.
+    string name = 3;
+  }
+
+  message Subject {
+    // The API group of the subject resource.
+    string api_group = 1 [json_name = "api_group"];
+
+    // The kind of resource.
+    string kind = 2;
+
+    // The name of the resource to bind to.
+    string name = 3;
+
+    // The Namespace of the subject resource.
+    string namespace = 4;
+  }
+}
+
+// KubernetesRoleV1 version is 0
+message KubernetesRoleV1 {
+  string id = 1;
+
+  Metadata metadata = 2;
+
+  repeated Rule rule = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Metadata {
+    // An unstructured key value map stored with the role that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the role. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the role, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // Namespace defines the space within which name of the role must be unique.
+    string namespace = 6;
+
+    // An opaque value that represents the internal version of this role that can be used by clients to determine when role has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 7 [json_name = "resource_version"];
+
+    // The unique in time and space value for this role. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 8;
+  }
+
+  message Rule {
+    // Name of the APIGroup that contains the resources
+    repeated string api_groups = 1 [json_name = "api_groups"];
+
+    // White list of names that the rule applies to
+    repeated string resource_names = 2 [json_name = "resource_names"];
+
+    // List of resources that the rule applies to
+    repeated string resources = 3;
+
+    // List of Verbs that apply to ALL the ResourceKinds and AttributeRestrictions contained in this rule
+    repeated string verbs = 4;
+  }
+}

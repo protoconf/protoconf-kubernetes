@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.resources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesNodeTaint version is 0
+message KubernetesNodeTaint {
+  // Set the name of the field manager for the node taint
+  string field_manager = 1 [json_name = "field_manager"];
+
+  // Force overwriting annotations that were created or edited outside of Terraform.
+  bool force = 2;
+
+  string id = 3;
+
+  Metadata metadata = 4;
+
+  repeated Taint taint = 5;
+
+  map<string, string> for_each = 6 [json_name = "for_each"];
+
+  repeated string depends_on = 7 [json_name = "depends_on"];
+
+  int32 count = 8;
+
+  string provider = 9;
+
+  terraform.v1.Lifecycle lifecycle = 10;
+
+  message Metadata {
+    // The name of the node
+    string name = 1;
+  }
+
+  message Taint {
+    // The taint effect
+    string effect = 1;
+
+    // The taint key
+    string key = 2;
+
+    // The taint value
+    string value = 3;
+  }
+}

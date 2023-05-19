@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.provider.v2;
+
+import "terraform/v1/meta.proto";
+
+// Kubernetes version is 0
+message Kubernetes {
+  // PEM-encoded client certificate for TLS authentication.
+  string client_certificate = 1 [json_name = "client_certificate"];
+
+  // PEM-encoded client certificate key for TLS authentication.
+  string client_key = 2 [json_name = "client_key"];
+
+  // PEM-encoded root certificates bundle for TLS authentication.
+  string cluster_ca_certificate = 3 [json_name = "cluster_ca_certificate"];
+
+  string config_context = 4 [json_name = "config_context"];
+
+  string config_context_auth_info = 5 [json_name = "config_context_auth_info"];
+
+  string config_context_cluster = 6 [json_name = "config_context_cluster"];
+
+  // Path to the kube config file. Can be set with KUBE_CONFIG_PATH.
+  string config_path = 7 [json_name = "config_path"];
+
+  // A list of paths to kube config files. Can be set with KUBE_CONFIG_PATHS environment variable.
+  repeated string config_paths = 8 [json_name = "config_paths"];
+
+  // The hostname (in form of URI) of Kubernetes master.
+  string host = 9;
+
+  // List of Kubernetes metadata annotations to ignore across all resources handled by this provider for situations where external systems are managing certain resource annotations. Each item is a regular expression.
+  repeated string ignore_annotations = 10 [json_name = "ignore_annotations"];
+
+  // List of Kubernetes metadata labels to ignore across all resources handled by this provider for situations where external systems are managing certain resource labels. Each item is a regular expression.
+  repeated string ignore_labels = 11 [json_name = "ignore_labels"];
+
+  // Whether server should be accessed without verifying the TLS certificate.
+  bool insecure = 12;
+
+  // The password to use for HTTP basic authentication when accessing the Kubernetes master endpoint.
+  string password = 13;
+
+  // URL to the proxy to be used for all API requests
+  string proxy_url = 14 [json_name = "proxy_url"];
+
+  // Token to authenticate an service account
+  string token = 15;
+
+  // The username to use for HTTP basic authentication when accessing the Kubernetes master endpoint.
+  string username = 16;
+
+  Exec exec = 17;
+
+  Experiments experiments = 18;
+
+  map<string, string> for_each = 19 [json_name = "for_each"];
+
+  repeated string depends_on = 20 [json_name = "depends_on"];
+
+  int32 count = 21;
+
+  string provider = 22;
+
+  terraform.v1.Lifecycle lifecycle = 23;
+
+  string alias = 24;
+
+  message Exec {
+    string api_version = 1 [json_name = "api_version"];
+
+    repeated string args = 2;
+
+    string command = 3;
+
+    map<string, string> env = 4;
+  }
+
+  message Experiments {
+    // Enable the `kubernetes_manifest` resource.
+    bool manifest_resource = 1 [json_name = "manifest_resource"];
+  }
+}

@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.resources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesCsiDriver version is 0
+message KubernetesCsiDriver {
+  string id = 1;
+
+  Metadata metadata = 2;
+
+  Spec spec = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Metadata {
+    // An unstructured key value map stored with the csi driver that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the csi driver. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the csi driver, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // An opaque value that represents the internal version of this csi driver that can be used by clients to determine when csi driver has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 6 [json_name = "resource_version"];
+
+    // The unique in time and space value for this csi driver. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 7;
+  }
+
+  message Spec {
+    // Indicates if the CSI volume driver requires an attach operation
+    bool attach_required = 1 [json_name = "attach_required"];
+
+    // Indicates that the CSI volume driver requires additional pod information (like podName, podUID, etc.) during mount operations
+    bool pod_info_on_mount = 2 [json_name = "pod_info_on_mount"];
+
+    // Defines what kind of volumes this CSI volume driver supports
+    repeated string volume_lifecycle_modes = 3 [json_name = "volume_lifecycle_modes"];
+  }
+}
+
+// KubernetesCsiDriverV1 version is 0
+message KubernetesCsiDriverV1 {
+  string id = 1;
+
+  Metadata metadata = 2;
+
+  Spec spec = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Metadata {
+    // An unstructured key value map stored with the csi driver that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the csi driver. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the csi driver, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // An opaque value that represents the internal version of this csi driver that can be used by clients to determine when csi driver has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 6 [json_name = "resource_version"];
+
+    // The unique in time and space value for this csi driver. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 7;
+  }
+
+  message Spec {
+    // Indicates if the CSI volume driver requires an attach operation
+    bool attach_required = 1 [json_name = "attach_required"];
+
+    // Indicates that the CSI volume driver requires additional pod information (like podName, podUID, etc.) during mount operations
+    bool pod_info_on_mount = 2 [json_name = "pod_info_on_mount"];
+
+    // Defines what kind of volumes this CSI volume driver supports
+    repeated string volume_lifecycle_modes = 3 [json_name = "volume_lifecycle_modes"];
+  }
+}

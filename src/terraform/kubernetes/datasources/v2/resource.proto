@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.datasources.v2;
+
+import "google/protobuf/struct.proto";
+
+import "terraform/v1/meta.proto";
+
+// KubernetesResource version is 1
+message KubernetesResource {
+  // The resource apiVersion.
+  string api_version = 1 [json_name = "api_version"];
+
+  // The resource kind.
+  string kind = 2;
+
+  // The response from the API server.
+  google.protobuf.Value object = 3;
+
+  Metadata metadata = 4;
+
+  map<string, string> for_each = 5 [json_name = "for_each"];
+
+  repeated string depends_on = 6 [json_name = "depends_on"];
+
+  int32 count = 7;
+
+  string provider = 8;
+
+  terraform.v1.Lifecycle lifecycle = 9;
+
+  message Metadata {
+    // The resource name.
+    string name = 1;
+
+    // The resource namespace.
+    string namespace = 2;
+  }
+}

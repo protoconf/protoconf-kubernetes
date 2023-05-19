@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.datasources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesNamespace version is 0
+message KubernetesNamespace {
+  string id = 1;
+
+  // Spec defines the behavior of the Namespace.
+  repeated Spec spec = 2;
+
+  Metadata metadata = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Spec {
+    // finalizers: list of string
+    repeated string finalizers = 1;
+  }
+
+  message Metadata {
+    // An unstructured key value map stored with the namespace that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 2;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the namespace. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 3;
+
+    // Name of the namespace, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 4;
+
+    // An opaque value that represents the internal version of this namespace that can be used by clients to determine when namespace has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 5 [json_name = "resource_version"];
+
+    // The unique in time and space value for this namespace. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 6;
+  }
+}
+
+// KubernetesNamespaceV1 version is 0
+message KubernetesNamespaceV1 {
+  string id = 1;
+
+  // Spec defines the behavior of the Namespace.
+  repeated Spec spec = 2;
+
+  Metadata metadata = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Spec {
+    // finalizers: list of string
+    repeated string finalizers = 1;
+  }
+
+  message Metadata {
+    // An unstructured key value map stored with the namespace that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 2;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the namespace. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 3;
+
+    // Name of the namespace, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 4;
+
+    // An opaque value that represents the internal version of this namespace that can be used by clients to determine when namespace has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 5 [json_name = "resource_version"];
+
+    // The unique in time and space value for this namespace. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 6;
+  }
+}

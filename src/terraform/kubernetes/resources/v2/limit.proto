@@ -1,0 +1,144 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.resources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesLimitRange version is 0
+message KubernetesLimitRange {
+  string id = 1;
+
+  Metadata metadata = 2;
+
+  Spec spec = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Metadata {
+    // An unstructured key value map stored with the limit range that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the limit range. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the limit range, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // Namespace defines the space within which name of the limit range must be unique.
+    string namespace = 6;
+
+    // An opaque value that represents the internal version of this limit range that can be used by clients to determine when limit range has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 7 [json_name = "resource_version"];
+
+    // The unique in time and space value for this limit range. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 8;
+  }
+
+  message Spec {
+    repeated Limit limit = 1;
+
+    message Limit {
+      // Default resource requirement limit value by resource name if resource limit is omitted.
+      map<string, string> default = 1;
+
+      // The default resource requirement request value by resource name if resource request is omitted.
+      map<string, string> default_request = 2 [json_name = "default_request"];
+
+      // Max usage constraints on this kind by resource name.
+      map<string, string> max = 3;
+
+      // The named resource must have a request and limit that are both non-zero where limit divided by request is less than or equal to the enumerated value; this represents the max burst for the named resource.
+      map<string, string> max_limit_request_ratio = 4 [json_name = "max_limit_request_ratio"];
+
+      // Min usage constraints on this kind by resource name.
+      map<string, string> min = 5;
+
+      // Type of resource that this limit applies to.
+      string type = 6;
+    }
+  }
+}
+
+// KubernetesLimitRangeV1 version is 0
+message KubernetesLimitRangeV1 {
+  string id = 1;
+
+  Metadata metadata = 2;
+
+  Spec spec = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Metadata {
+    // An unstructured key value map stored with the limit range that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the limit range. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the limit range, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // Namespace defines the space within which name of the limit range must be unique.
+    string namespace = 6;
+
+    // An opaque value that represents the internal version of this limit range that can be used by clients to determine when limit range has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 7 [json_name = "resource_version"];
+
+    // The unique in time and space value for this limit range. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 8;
+  }
+
+  message Spec {
+    repeated Limit limit = 1;
+
+    message Limit {
+      // Default resource requirement limit value by resource name if resource limit is omitted.
+      map<string, string> default = 1;
+
+      // The default resource requirement request value by resource name if resource request is omitted.
+      map<string, string> default_request = 2 [json_name = "default_request"];
+
+      // Max usage constraints on this kind by resource name.
+      map<string, string> max = 3;
+
+      // The named resource must have a request and limit that are both non-zero where limit divided by request is less than or equal to the enumerated value; this represents the max burst for the named resource.
+      map<string, string> max_limit_request_ratio = 4 [json_name = "max_limit_request_ratio"];
+
+      // Min usage constraints on this kind by resource name.
+      map<string, string> min = 5;
+
+      // Type of resource that this limit applies to.
+      string type = 6;
+    }
+  }
+}

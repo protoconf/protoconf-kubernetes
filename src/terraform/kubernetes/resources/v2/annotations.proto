@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.resources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesAnnotations version is 0
+message KubernetesAnnotations {
+  // A map of annotations to apply to the resource.
+  map<string, string> annotations = 1;
+
+  // The apiVersion of the resource to annotate.
+  string api_version = 2 [json_name = "api_version"];
+
+  // Set the name of the field manager for the specified labels.
+  string field_manager = 3 [json_name = "field_manager"];
+
+  // Force overwriting annotations that were created or edited outside of Terraform.
+  bool force = 4;
+
+  string id = 5;
+
+  // The kind of the resource to annotate.
+  string kind = 6;
+
+  // A map of annotations to apply to the resource template.
+  map<string, string> template_annotations = 7 [json_name = "template_annotations"];
+
+  Metadata metadata = 8;
+
+  map<string, string> for_each = 9 [json_name = "for_each"];
+
+  repeated string depends_on = 10 [json_name = "depends_on"];
+
+  int32 count = 11;
+
+  string provider = 12;
+
+  terraform.v1.Lifecycle lifecycle = 13;
+
+  message Metadata {
+    // The name of the resource.
+    string name = 1;
+
+    // The namespace of the resource.
+    string namespace = 2;
+  }
+}

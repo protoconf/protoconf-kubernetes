@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.resources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesTokenRequestV1 version is 0
+message KubernetesTokenRequestV1 {
+  string id = 1;
+
+  // Token is the opaque bearer token.
+  string token = 2;
+
+  Metadata metadata = 3;
+
+  Spec spec = 4;
+
+  map<string, string> for_each = 5 [json_name = "for_each"];
+
+  repeated string depends_on = 6 [json_name = "depends_on"];
+
+  int32 count = 7;
+
+  string provider = 8;
+
+  terraform.v1.Lifecycle lifecycle = 9;
+
+  message Metadata {
+    // An unstructured key value map stored with the token request that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the token request. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the token request, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // Namespace defines the space within which name of the token request must be unique.
+    string namespace = 6;
+
+    // An opaque value that represents the internal version of this token request that can be used by clients to determine when token request has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 7 [json_name = "resource_version"];
+
+    // The unique in time and space value for this token request. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 8;
+  }
+
+  message Spec {
+    // Audiences are the intendend audiences of the token. A recipient of a token must identify themself with an identifier in the list of audiences of the token, and otherwise should reject the token. A token issued for multiple audiences may be used to authenticate against any of the audiences listed but implies a high degree of trust between the target audiences.
+    repeated string audiences = 1;
+
+    // expiration_seconds is the requested duration of validity of the request. The token issuer may return a token with a different validity duration so a client needs to check the 'expiration' field in a response. The expiration can't be less than 10 minutes.
+    int64 expiration_seconds = 2 [json_name = "expiration_seconds"];
+
+    BoundObjectRef bound_object_ref = 3 [json_name = "bound_object_ref"];
+
+    message BoundObjectRef {
+      // API version of the referent.
+      string api_version = 1 [json_name = "api_version"];
+
+      // Kind of the referent. Valid kinds are 'Pod' and 'Secret'.
+      string kind = 2;
+
+      // Name of the referent.
+      string name = 3;
+
+      // UID of the referent.
+      string uid = 4;
+    }
+  }
+}

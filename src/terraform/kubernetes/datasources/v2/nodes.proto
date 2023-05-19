@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.datasources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesNodes version is 0
+message KubernetesNodes {
+  string id = 1;
+
+  // List of nodes in a cluster.
+  repeated Nodes nodes = 2;
+
+  Metadata metadata = 3;
+
+  map<string, string> for_each = 4 [json_name = "for_each"];
+
+  repeated string depends_on = 5 [json_name = "depends_on"];
+
+  int32 count = 6;
+
+  string provider = 7;
+
+  terraform.v1.Lifecycle lifecycle = 8;
+
+  message Nodes {
+    // metadata: list of object
+    repeated Metadata metadata = 1;
+
+    // spec: list of object
+    repeated Spec spec = 2;
+
+    // status: list of object
+    repeated Status status = 3;
+
+    message Metadata {
+      // annotations: map of string
+      map<string, string> annotations = 1;
+
+      // generation: number
+      int64 generation = 2;
+
+      // labels: map of string
+      map<string, string> labels = 3;
+
+      // name: string
+      string name = 4;
+
+      // resource_version: string
+      string resource_version = 5 [json_name = "resource_version"];
+
+      // uid: string
+      string uid = 6;
+    }
+
+    message Spec {
+      // pod_cidr: string
+      string pod_cidr = 1 [json_name = "pod_cidr"];
+
+      // pod_cidrs: list of string
+      repeated string pod_cidrs = 2 [json_name = "pod_cidrs"];
+
+      // provider_id: string
+      string provider_id = 3 [json_name = "provider_id"];
+
+      // taints: list of object
+      repeated Taints taints = 4;
+
+      // unschedulable: bool
+      bool unschedulable = 5;
+
+      message Taints {
+        // effect: string
+        string effect = 1;
+
+        // key: string
+        string key = 2;
+
+        // value: string
+        string value = 3;
+      }
+    }
+
+    message Status {
+      // allocatable: map of string
+      map<string, string> allocatable = 1;
+
+      // capacity: map of string
+      map<string, string> capacity = 2;
+
+      // node_info: list of object
+      repeated NodeInfo node_info = 3 [json_name = "node_info"];
+
+      message NodeInfo {
+        // architecture: string
+        string architecture = 1;
+
+        // boot_id: string
+        string boot_id = 2 [json_name = "boot_id"];
+
+        // container_runtime_version: string
+        string container_runtime_version = 3 [json_name = "container_runtime_version"];
+
+        // kernel_version: string
+        string kernel_version = 4 [json_name = "kernel_version"];
+
+        // kube_proxy_version: string
+        string kube_proxy_version = 5 [json_name = "kube_proxy_version"];
+
+        // kubelet_version: string
+        string kubelet_version = 6 [json_name = "kubelet_version"];
+
+        // machine_id: string
+        string machine_id = 7 [json_name = "machine_id"];
+
+        // operating_system: string
+        string operating_system = 8 [json_name = "operating_system"];
+
+        // os_image: string
+        string os_image = 9 [json_name = "os_image"];
+
+        // system_uuid: string
+        string system_uuid = 10 [json_name = "system_uuid"];
+      }
+    }
+  }
+
+  message Metadata {
+    // Select nodes with these labels. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 1;
+  }
+}

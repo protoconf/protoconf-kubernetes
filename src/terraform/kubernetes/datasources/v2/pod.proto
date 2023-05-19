@@ -1,0 +1,4544 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.datasources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesPod version is 0
+message KubernetesPod {
+  string id = 1;
+
+  // Specification of the desired behavior of the pod.
+  repeated Spec spec = 2;
+
+  string status = 3;
+
+  Metadata metadata = 4;
+
+  map<string, string> for_each = 5 [json_name = "for_each"];
+
+  repeated string depends_on = 6 [json_name = "depends_on"];
+
+  int32 count = 7;
+
+  string provider = 8;
+
+  terraform.v1.Lifecycle lifecycle = 9;
+
+  message Spec {
+    // active_deadline_seconds: number
+    int64 active_deadline_seconds = 1 [json_name = "active_deadline_seconds"];
+
+    // affinity: list of object
+    repeated Affinity affinity = 2;
+
+    // automount_service_account_token: bool
+    bool automount_service_account_token = 3 [json_name = "automount_service_account_token"];
+
+    // container: list of object
+    repeated Container container = 4;
+
+    // dns_config: list of object
+    repeated DnsConfig dns_config = 5 [json_name = "dns_config"];
+
+    // dns_policy: string
+    string dns_policy = 6 [json_name = "dns_policy"];
+
+    // enable_service_links: bool
+    bool enable_service_links = 7 [json_name = "enable_service_links"];
+
+    // host_aliases: list of object
+    repeated HostAliases host_aliases = 8 [json_name = "host_aliases"];
+
+    // host_ipc: bool
+    bool host_ipc = 9 [json_name = "host_ipc"];
+
+    // host_network: bool
+    bool host_network = 10 [json_name = "host_network"];
+
+    // host_pid: bool
+    bool host_pid = 11 [json_name = "host_pid"];
+
+    // hostname: string
+    string hostname = 12;
+
+    // image_pull_secrets: list of object
+    repeated ImagePullSecrets image_pull_secrets = 13 [json_name = "image_pull_secrets"];
+
+    // init_container: list of object
+    repeated InitContainer init_container = 14 [json_name = "init_container"];
+
+    // node_name: string
+    string node_name = 15 [json_name = "node_name"];
+
+    // node_selector: map of string
+    map<string, string> node_selector = 16 [json_name = "node_selector"];
+
+    // priority_class_name: string
+    string priority_class_name = 17 [json_name = "priority_class_name"];
+
+    // readiness_gate: list of object
+    repeated ReadinessGate readiness_gate = 18 [json_name = "readiness_gate"];
+
+    // restart_policy: string
+    string restart_policy = 19 [json_name = "restart_policy"];
+
+    // runtime_class_name: string
+    string runtime_class_name = 20 [json_name = "runtime_class_name"];
+
+    // scheduler_name: string
+    string scheduler_name = 21 [json_name = "scheduler_name"];
+
+    // security_context: list of object
+    repeated SecurityContext security_context = 22 [json_name = "security_context"];
+
+    // service_account_name: string
+    string service_account_name = 23 [json_name = "service_account_name"];
+
+    // share_process_namespace: bool
+    bool share_process_namespace = 24 [json_name = "share_process_namespace"];
+
+    // subdomain: string
+    string subdomain = 25;
+
+    // termination_grace_period_seconds: number
+    int64 termination_grace_period_seconds = 26 [json_name = "termination_grace_period_seconds"];
+
+    // toleration: list of object
+    repeated Toleration toleration = 27;
+
+    // topology_spread_constraint: list of object
+    repeated TopologySpreadConstraint topology_spread_constraint = 28 [json_name = "topology_spread_constraint"];
+
+    // volume: list of object
+    repeated Volume volume = 29;
+
+    message Affinity {
+      // node_affinity: list of object
+      repeated NodeAffinity node_affinity = 1 [json_name = "node_affinity"];
+
+      // pod_affinity: list of object
+      repeated PodAffinity pod_affinity = 2 [json_name = "pod_affinity"];
+
+      // pod_anti_affinity: list of object
+      repeated PodAntiAffinity pod_anti_affinity = 3 [json_name = "pod_anti_affinity"];
+
+      message NodeAffinity {
+        // preferred_during_scheduling_ignored_during_execution: list of object
+        repeated PreferredDuringSchedulingIgnoredDuringExecution preferred_during_scheduling_ignored_during_execution = 1 [
+          json_name = "preferred_during_scheduling_ignored_during_execution"
+        ];
+
+        // required_during_scheduling_ignored_during_execution: list of object
+        repeated RequiredDuringSchedulingIgnoredDuringExecution required_during_scheduling_ignored_during_execution = 2 [
+          json_name = "required_during_scheduling_ignored_during_execution"
+        ];
+
+        message PreferredDuringSchedulingIgnoredDuringExecution {
+          // preference: list of object
+          repeated Preference preference = 1;
+
+          // weight: number
+          int64 weight = 2;
+
+          message Preference {
+            // match_expressions: list of object
+            repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+            message MatchExpressions {
+              // key: string
+              string key = 1;
+
+              // operator: string
+              string operator = 2;
+
+              // values: set of string
+              repeated string values = 3;
+            }
+          }
+        }
+
+        message RequiredDuringSchedulingIgnoredDuringExecution {
+          // node_selector_term: list of object
+          repeated NodeSelectorTerm node_selector_term = 1 [json_name = "node_selector_term"];
+
+          message NodeSelectorTerm {
+            // match_expressions: list of object
+            repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+            message MatchExpressions {
+              // key: string
+              string key = 1;
+
+              // operator: string
+              string operator = 2;
+
+              // values: set of string
+              repeated string values = 3;
+            }
+          }
+        }
+      }
+
+      message PodAffinity {
+        // preferred_during_scheduling_ignored_during_execution: list of object
+        repeated PreferredDuringSchedulingIgnoredDuringExecution preferred_during_scheduling_ignored_during_execution = 1 [
+          json_name = "preferred_during_scheduling_ignored_during_execution"
+        ];
+
+        // required_during_scheduling_ignored_during_execution: list of object
+        repeated RequiredDuringSchedulingIgnoredDuringExecution required_during_scheduling_ignored_during_execution = 2 [
+          json_name = "required_during_scheduling_ignored_during_execution"
+        ];
+
+        message PreferredDuringSchedulingIgnoredDuringExecution {
+          // pod_affinity_term: list of object
+          repeated PodAffinityTerm pod_affinity_term = 1 [json_name = "pod_affinity_term"];
+
+          // weight: number
+          int64 weight = 2;
+
+          message PodAffinityTerm {
+            // label_selector: list of object
+            repeated LabelSelector label_selector = 1 [json_name = "label_selector"];
+
+            // namespaces: set of string
+            repeated string namespaces = 2;
+
+            // topology_key: string
+            string topology_key = 3 [json_name = "topology_key"];
+
+            message LabelSelector {
+              // match_expressions: list of object
+              repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+              // match_labels: map of string
+              map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+              message MatchExpressions {
+                // key: string
+                string key = 1;
+
+                // operator: string
+                string operator = 2;
+
+                // values: set of string
+                repeated string values = 3;
+              }
+            }
+          }
+        }
+
+        message RequiredDuringSchedulingIgnoredDuringExecution {
+          // label_selector: list of object
+          repeated LabelSelector label_selector = 1 [json_name = "label_selector"];
+
+          // namespaces: set of string
+          repeated string namespaces = 2;
+
+          // topology_key: string
+          string topology_key = 3 [json_name = "topology_key"];
+
+          message LabelSelector {
+            // match_expressions: list of object
+            repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+            // match_labels: map of string
+            map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+            message MatchExpressions {
+              // key: string
+              string key = 1;
+
+              // operator: string
+              string operator = 2;
+
+              // values: set of string
+              repeated string values = 3;
+            }
+          }
+        }
+      }
+
+      message PodAntiAffinity {
+        // preferred_during_scheduling_ignored_during_execution: list of object
+        repeated PreferredDuringSchedulingIgnoredDuringExecution preferred_during_scheduling_ignored_during_execution = 1 [
+          json_name = "preferred_during_scheduling_ignored_during_execution"
+        ];
+
+        // required_during_scheduling_ignored_during_execution: list of object
+        repeated RequiredDuringSchedulingIgnoredDuringExecution required_during_scheduling_ignored_during_execution = 2 [
+          json_name = "required_during_scheduling_ignored_during_execution"
+        ];
+
+        message PreferredDuringSchedulingIgnoredDuringExecution {
+          // pod_affinity_term: list of object
+          repeated PodAffinityTerm pod_affinity_term = 1 [json_name = "pod_affinity_term"];
+
+          // weight: number
+          int64 weight = 2;
+
+          message PodAffinityTerm {
+            // label_selector: list of object
+            repeated LabelSelector label_selector = 1 [json_name = "label_selector"];
+
+            // namespaces: set of string
+            repeated string namespaces = 2;
+
+            // topology_key: string
+            string topology_key = 3 [json_name = "topology_key"];
+
+            message LabelSelector {
+              // match_expressions: list of object
+              repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+              // match_labels: map of string
+              map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+              message MatchExpressions {
+                // key: string
+                string key = 1;
+
+                // operator: string
+                string operator = 2;
+
+                // values: set of string
+                repeated string values = 3;
+              }
+            }
+          }
+        }
+
+        message RequiredDuringSchedulingIgnoredDuringExecution {
+          // label_selector: list of object
+          repeated LabelSelector label_selector = 1 [json_name = "label_selector"];
+
+          // namespaces: set of string
+          repeated string namespaces = 2;
+
+          // topology_key: string
+          string topology_key = 3 [json_name = "topology_key"];
+
+          message LabelSelector {
+            // match_expressions: list of object
+            repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+            // match_labels: map of string
+            map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+            message MatchExpressions {
+              // key: string
+              string key = 1;
+
+              // operator: string
+              string operator = 2;
+
+              // values: set of string
+              repeated string values = 3;
+            }
+          }
+        }
+      }
+    }
+
+    message Container {
+      // args: list of string
+      repeated string args = 1;
+
+      // command: list of string
+      repeated string command = 2;
+
+      // env: list of object
+      repeated Env env = 3;
+
+      // env_from: list of object
+      repeated EnvFrom env_from = 4 [json_name = "env_from"];
+
+      // image: string
+      string image = 5;
+
+      // image_pull_policy: string
+      string image_pull_policy = 6 [json_name = "image_pull_policy"];
+
+      // lifecycle: list of object
+      repeated Lifecycle lifecycle = 7;
+
+      // liveness_probe: list of object
+      repeated LivenessProbe liveness_probe = 8 [json_name = "liveness_probe"];
+
+      // name: string
+      string name = 9;
+
+      // port: list of object
+      repeated Port port = 10;
+
+      // readiness_probe: list of object
+      repeated ReadinessProbe readiness_probe = 11 [json_name = "readiness_probe"];
+
+      // resources: list of object
+      repeated Resources resources = 12;
+
+      // security_context: list of object
+      repeated SecurityContext security_context = 13 [json_name = "security_context"];
+
+      // startup_probe: list of object
+      repeated StartupProbe startup_probe = 14 [json_name = "startup_probe"];
+
+      // stdin: bool
+      bool stdin = 15;
+
+      // stdin_once: bool
+      bool stdin_once = 16 [json_name = "stdin_once"];
+
+      // termination_message_path: string
+      string termination_message_path = 17 [json_name = "termination_message_path"];
+
+      // termination_message_policy: string
+      string termination_message_policy = 18 [json_name = "termination_message_policy"];
+
+      // tty: bool
+      bool tty = 19;
+
+      // volume_mount: list of object
+      repeated VolumeMount volume_mount = 20 [json_name = "volume_mount"];
+
+      // working_dir: string
+      string working_dir = 21 [json_name = "working_dir"];
+
+      message Env {
+        // name: string
+        string name = 1;
+
+        // value: string
+        string value = 2;
+
+        // value_from: list of object
+        repeated ValueFrom value_from = 3 [json_name = "value_from"];
+
+        message ValueFrom {
+          // config_map_key_ref: list of object
+          repeated ConfigMapKeyRef config_map_key_ref = 1 [json_name = "config_map_key_ref"];
+
+          // field_ref: list of object
+          repeated FieldRef field_ref = 2 [json_name = "field_ref"];
+
+          // resource_field_ref: list of object
+          repeated ResourceFieldRef resource_field_ref = 3 [json_name = "resource_field_ref"];
+
+          // secret_key_ref: list of object
+          repeated SecretKeyRef secret_key_ref = 4 [json_name = "secret_key_ref"];
+
+          message ConfigMapKeyRef {
+            // key: string
+            string key = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+          }
+
+          message FieldRef {
+            // api_version: string
+            string api_version = 1 [json_name = "api_version"];
+
+            // field_path: string
+            string field_path = 2 [json_name = "field_path"];
+          }
+
+          message ResourceFieldRef {
+            // container_name: string
+            string container_name = 1 [json_name = "container_name"];
+
+            // divisor: string
+            string divisor = 2;
+
+            // resource: string
+            string resource = 3;
+          }
+
+          message SecretKeyRef {
+            // key: string
+            string key = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+          }
+        }
+      }
+
+      message EnvFrom {
+        // config_map_ref: list of object
+        repeated ConfigMapRef config_map_ref = 1 [json_name = "config_map_ref"];
+
+        // prefix: string
+        string prefix = 2;
+
+        // secret_ref: list of object
+        repeated SecretRef secret_ref = 3 [json_name = "secret_ref"];
+
+        message ConfigMapRef {
+          // name: string
+          string name = 1;
+
+          // optional: bool
+          bool optional = 2;
+        }
+
+        message SecretRef {
+          // name: string
+          string name = 1;
+
+          // optional: bool
+          bool optional = 2;
+        }
+      }
+
+      message Lifecycle {
+        // post_start: list of object
+        repeated PostStart post_start = 1 [json_name = "post_start"];
+
+        // pre_stop: list of object
+        repeated PreStop pre_stop = 2 [json_name = "pre_stop"];
+
+        message PostStart {
+          // exec: list of object
+          repeated Exec exec = 1;
+
+          // http_get: list of object
+          repeated HttpGet http_get = 2 [json_name = "http_get"];
+
+          // tcp_socket: list of object
+          repeated TcpSocket tcp_socket = 3 [json_name = "tcp_socket"];
+
+          message Exec {
+            // command: list of string
+            repeated string command = 1;
+          }
+
+          message HttpGet {
+            // host: string
+            string host = 1;
+
+            // http_header: list of object
+            repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+            // path: string
+            string path = 3;
+
+            // port: string
+            string port = 4;
+
+            // scheme: string
+            string scheme = 5;
+
+            message HttpHeader {
+              // name: string
+              string name = 1;
+
+              // value: string
+              string value = 2;
+            }
+          }
+
+          message TcpSocket {
+            // port: string
+            string port = 1;
+          }
+        }
+
+        message PreStop {
+          // exec: list of object
+          repeated Exec exec = 1;
+
+          // http_get: list of object
+          repeated HttpGet http_get = 2 [json_name = "http_get"];
+
+          // tcp_socket: list of object
+          repeated TcpSocket tcp_socket = 3 [json_name = "tcp_socket"];
+
+          message Exec {
+            // command: list of string
+            repeated string command = 1;
+          }
+
+          message HttpGet {
+            // host: string
+            string host = 1;
+
+            // http_header: list of object
+            repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+            // path: string
+            string path = 3;
+
+            // port: string
+            string port = 4;
+
+            // scheme: string
+            string scheme = 5;
+
+            message HttpHeader {
+              // name: string
+              string name = 1;
+
+              // value: string
+              string value = 2;
+            }
+          }
+
+          message TcpSocket {
+            // port: string
+            string port = 1;
+          }
+        }
+      }
+
+      message LivenessProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message Port {
+        // container_port: number
+        int64 container_port = 1 [json_name = "container_port"];
+
+        // host_ip: string
+        string host_ip = 2 [json_name = "host_ip"];
+
+        // host_port: number
+        int64 host_port = 3 [json_name = "host_port"];
+
+        // name: string
+        string name = 4;
+
+        // protocol: string
+        string protocol = 5;
+      }
+
+      message ReadinessProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message Resources {
+        // limits: map of string
+        map<string, string> limits = 1;
+
+        // requests: map of string
+        map<string, string> requests = 2;
+      }
+
+      message SecurityContext {
+        // allow_privilege_escalation: bool
+        bool allow_privilege_escalation = 1 [json_name = "allow_privilege_escalation"];
+
+        // capabilities: list of object
+        repeated Capabilities capabilities = 2;
+
+        // privileged: bool
+        bool privileged = 3;
+
+        // read_only_root_filesystem: bool
+        bool read_only_root_filesystem = 4 [json_name = "read_only_root_filesystem"];
+
+        // run_as_group: string
+        string run_as_group = 5 [json_name = "run_as_group"];
+
+        // run_as_non_root: bool
+        bool run_as_non_root = 6 [json_name = "run_as_non_root"];
+
+        // run_as_user: string
+        string run_as_user = 7 [json_name = "run_as_user"];
+
+        // se_linux_options: list of object
+        repeated SeLinuxOptions se_linux_options = 8 [json_name = "se_linux_options"];
+
+        // seccomp_profile: list of object
+        repeated SeccompProfile seccomp_profile = 9 [json_name = "seccomp_profile"];
+
+        message Capabilities {
+          // add: list of string
+          repeated string add = 1;
+
+          // drop: list of string
+          repeated string drop = 2;
+        }
+
+        message SeLinuxOptions {
+          // level: string
+          string level = 1;
+
+          // role: string
+          string role = 2;
+
+          // type: string
+          string type = 3;
+
+          // user: string
+          string user = 4;
+        }
+
+        message SeccompProfile {
+          // localhost_profile: string
+          string localhost_profile = 1 [json_name = "localhost_profile"];
+
+          // type: string
+          string type = 2;
+        }
+      }
+
+      message StartupProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message VolumeMount {
+        // mount_path: string
+        string mount_path = 1 [json_name = "mount_path"];
+
+        // mount_propagation: string
+        string mount_propagation = 2 [json_name = "mount_propagation"];
+
+        // name: string
+        string name = 3;
+
+        // read_only: bool
+        bool read_only = 4 [json_name = "read_only"];
+
+        // sub_path: string
+        string sub_path = 5 [json_name = "sub_path"];
+      }
+    }
+
+    message DnsConfig {
+      // nameservers: list of string
+      repeated string nameservers = 1;
+
+      // option: list of object
+      repeated Option option = 2;
+
+      // searches: list of string
+      repeated string searches = 3;
+
+      message Option {
+        // name: string
+        string name = 1;
+
+        // value: string
+        string value = 2;
+      }
+    }
+
+    message HostAliases {
+      // hostnames: list of string
+      repeated string hostnames = 1;
+
+      // ip: string
+      string ip = 2;
+    }
+
+    message ImagePullSecrets {
+      // name: string
+      string name = 1;
+    }
+
+    message InitContainer {
+      // args: list of string
+      repeated string args = 1;
+
+      // command: list of string
+      repeated string command = 2;
+
+      // env: list of object
+      repeated Env env = 3;
+
+      // env_from: list of object
+      repeated EnvFrom env_from = 4 [json_name = "env_from"];
+
+      // image: string
+      string image = 5;
+
+      // image_pull_policy: string
+      string image_pull_policy = 6 [json_name = "image_pull_policy"];
+
+      // lifecycle: list of object
+      repeated Lifecycle lifecycle = 7;
+
+      // liveness_probe: list of object
+      repeated LivenessProbe liveness_probe = 8 [json_name = "liveness_probe"];
+
+      // name: string
+      string name = 9;
+
+      // port: list of object
+      repeated Port port = 10;
+
+      // readiness_probe: list of object
+      repeated ReadinessProbe readiness_probe = 11 [json_name = "readiness_probe"];
+
+      // resources: list of object
+      repeated Resources resources = 12;
+
+      // security_context: list of object
+      repeated SecurityContext security_context = 13 [json_name = "security_context"];
+
+      // startup_probe: list of object
+      repeated StartupProbe startup_probe = 14 [json_name = "startup_probe"];
+
+      // stdin: bool
+      bool stdin = 15;
+
+      // stdin_once: bool
+      bool stdin_once = 16 [json_name = "stdin_once"];
+
+      // termination_message_path: string
+      string termination_message_path = 17 [json_name = "termination_message_path"];
+
+      // termination_message_policy: string
+      string termination_message_policy = 18 [json_name = "termination_message_policy"];
+
+      // tty: bool
+      bool tty = 19;
+
+      // volume_mount: list of object
+      repeated VolumeMount volume_mount = 20 [json_name = "volume_mount"];
+
+      // working_dir: string
+      string working_dir = 21 [json_name = "working_dir"];
+
+      message Env {
+        // name: string
+        string name = 1;
+
+        // value: string
+        string value = 2;
+
+        // value_from: list of object
+        repeated ValueFrom value_from = 3 [json_name = "value_from"];
+
+        message ValueFrom {
+          // config_map_key_ref: list of object
+          repeated ConfigMapKeyRef config_map_key_ref = 1 [json_name = "config_map_key_ref"];
+
+          // field_ref: list of object
+          repeated FieldRef field_ref = 2 [json_name = "field_ref"];
+
+          // resource_field_ref: list of object
+          repeated ResourceFieldRef resource_field_ref = 3 [json_name = "resource_field_ref"];
+
+          // secret_key_ref: list of object
+          repeated SecretKeyRef secret_key_ref = 4 [json_name = "secret_key_ref"];
+
+          message ConfigMapKeyRef {
+            // key: string
+            string key = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+          }
+
+          message FieldRef {
+            // api_version: string
+            string api_version = 1 [json_name = "api_version"];
+
+            // field_path: string
+            string field_path = 2 [json_name = "field_path"];
+          }
+
+          message ResourceFieldRef {
+            // container_name: string
+            string container_name = 1 [json_name = "container_name"];
+
+            // divisor: string
+            string divisor = 2;
+
+            // resource: string
+            string resource = 3;
+          }
+
+          message SecretKeyRef {
+            // key: string
+            string key = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+          }
+        }
+      }
+
+      message EnvFrom {
+        // config_map_ref: list of object
+        repeated ConfigMapRef config_map_ref = 1 [json_name = "config_map_ref"];
+
+        // prefix: string
+        string prefix = 2;
+
+        // secret_ref: list of object
+        repeated SecretRef secret_ref = 3 [json_name = "secret_ref"];
+
+        message ConfigMapRef {
+          // name: string
+          string name = 1;
+
+          // optional: bool
+          bool optional = 2;
+        }
+
+        message SecretRef {
+          // name: string
+          string name = 1;
+
+          // optional: bool
+          bool optional = 2;
+        }
+      }
+
+      message Lifecycle {
+        // post_start: list of object
+        repeated PostStart post_start = 1 [json_name = "post_start"];
+
+        // pre_stop: list of object
+        repeated PreStop pre_stop = 2 [json_name = "pre_stop"];
+
+        message PostStart {
+          // exec: list of object
+          repeated Exec exec = 1;
+
+          // http_get: list of object
+          repeated HttpGet http_get = 2 [json_name = "http_get"];
+
+          // tcp_socket: list of object
+          repeated TcpSocket tcp_socket = 3 [json_name = "tcp_socket"];
+
+          message Exec {
+            // command: list of string
+            repeated string command = 1;
+          }
+
+          message HttpGet {
+            // host: string
+            string host = 1;
+
+            // http_header: list of object
+            repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+            // path: string
+            string path = 3;
+
+            // port: string
+            string port = 4;
+
+            // scheme: string
+            string scheme = 5;
+
+            message HttpHeader {
+              // name: string
+              string name = 1;
+
+              // value: string
+              string value = 2;
+            }
+          }
+
+          message TcpSocket {
+            // port: string
+            string port = 1;
+          }
+        }
+
+        message PreStop {
+          // exec: list of object
+          repeated Exec exec = 1;
+
+          // http_get: list of object
+          repeated HttpGet http_get = 2 [json_name = "http_get"];
+
+          // tcp_socket: list of object
+          repeated TcpSocket tcp_socket = 3 [json_name = "tcp_socket"];
+
+          message Exec {
+            // command: list of string
+            repeated string command = 1;
+          }
+
+          message HttpGet {
+            // host: string
+            string host = 1;
+
+            // http_header: list of object
+            repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+            // path: string
+            string path = 3;
+
+            // port: string
+            string port = 4;
+
+            // scheme: string
+            string scheme = 5;
+
+            message HttpHeader {
+              // name: string
+              string name = 1;
+
+              // value: string
+              string value = 2;
+            }
+          }
+
+          message TcpSocket {
+            // port: string
+            string port = 1;
+          }
+        }
+      }
+
+      message LivenessProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message Port {
+        // container_port: number
+        int64 container_port = 1 [json_name = "container_port"];
+
+        // host_ip: string
+        string host_ip = 2 [json_name = "host_ip"];
+
+        // host_port: number
+        int64 host_port = 3 [json_name = "host_port"];
+
+        // name: string
+        string name = 4;
+
+        // protocol: string
+        string protocol = 5;
+      }
+
+      message ReadinessProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message Resources {
+        // limits: map of string
+        map<string, string> limits = 1;
+
+        // requests: map of string
+        map<string, string> requests = 2;
+      }
+
+      message SecurityContext {
+        // allow_privilege_escalation: bool
+        bool allow_privilege_escalation = 1 [json_name = "allow_privilege_escalation"];
+
+        // capabilities: list of object
+        repeated Capabilities capabilities = 2;
+
+        // privileged: bool
+        bool privileged = 3;
+
+        // read_only_root_filesystem: bool
+        bool read_only_root_filesystem = 4 [json_name = "read_only_root_filesystem"];
+
+        // run_as_group: string
+        string run_as_group = 5 [json_name = "run_as_group"];
+
+        // run_as_non_root: bool
+        bool run_as_non_root = 6 [json_name = "run_as_non_root"];
+
+        // run_as_user: string
+        string run_as_user = 7 [json_name = "run_as_user"];
+
+        // se_linux_options: list of object
+        repeated SeLinuxOptions se_linux_options = 8 [json_name = "se_linux_options"];
+
+        // seccomp_profile: list of object
+        repeated SeccompProfile seccomp_profile = 9 [json_name = "seccomp_profile"];
+
+        message Capabilities {
+          // add: list of string
+          repeated string add = 1;
+
+          // drop: list of string
+          repeated string drop = 2;
+        }
+
+        message SeLinuxOptions {
+          // level: string
+          string level = 1;
+
+          // role: string
+          string role = 2;
+
+          // type: string
+          string type = 3;
+
+          // user: string
+          string user = 4;
+        }
+
+        message SeccompProfile {
+          // localhost_profile: string
+          string localhost_profile = 1 [json_name = "localhost_profile"];
+
+          // type: string
+          string type = 2;
+        }
+      }
+
+      message StartupProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message VolumeMount {
+        // mount_path: string
+        string mount_path = 1 [json_name = "mount_path"];
+
+        // mount_propagation: string
+        string mount_propagation = 2 [json_name = "mount_propagation"];
+
+        // name: string
+        string name = 3;
+
+        // read_only: bool
+        bool read_only = 4 [json_name = "read_only"];
+
+        // sub_path: string
+        string sub_path = 5 [json_name = "sub_path"];
+      }
+    }
+
+    message ReadinessGate {
+      // condition_type: string
+      string condition_type = 1 [json_name = "condition_type"];
+    }
+
+    message SecurityContext {
+      // fs_group: string
+      string fs_group = 1 [json_name = "fs_group"];
+
+      // fs_group_change_policy: string
+      string fs_group_change_policy = 2 [json_name = "fs_group_change_policy"];
+
+      // run_as_group: string
+      string run_as_group = 3 [json_name = "run_as_group"];
+
+      // run_as_non_root: bool
+      bool run_as_non_root = 4 [json_name = "run_as_non_root"];
+
+      // run_as_user: string
+      string run_as_user = 5 [json_name = "run_as_user"];
+
+      // se_linux_options: list of object
+      repeated SeLinuxOptions se_linux_options = 6 [json_name = "se_linux_options"];
+
+      // seccomp_profile: list of object
+      repeated SeccompProfile seccomp_profile = 7 [json_name = "seccomp_profile"];
+
+      // supplemental_groups: set of number
+      repeated int64 supplemental_groups = 8 [json_name = "supplemental_groups"];
+
+      // sysctl: list of object
+      repeated Sysctl sysctl = 9;
+
+      message SeLinuxOptions {
+        // level: string
+        string level = 1;
+
+        // role: string
+        string role = 2;
+
+        // type: string
+        string type = 3;
+
+        // user: string
+        string user = 4;
+      }
+
+      message SeccompProfile {
+        // localhost_profile: string
+        string localhost_profile = 1 [json_name = "localhost_profile"];
+
+        // type: string
+        string type = 2;
+      }
+
+      message Sysctl {
+        // name: string
+        string name = 1;
+
+        // value: string
+        string value = 2;
+      }
+    }
+
+    message Toleration {
+      // effect: string
+      string effect = 1;
+
+      // key: string
+      string key = 2;
+
+      // operator: string
+      string operator = 3;
+
+      // toleration_seconds: string
+      string toleration_seconds = 4 [json_name = "toleration_seconds"];
+
+      // value: string
+      string value = 5;
+    }
+
+    message TopologySpreadConstraint {
+      // label_selector: list of object
+      repeated LabelSelector label_selector = 1 [json_name = "label_selector"];
+
+      // max_skew: number
+      int64 max_skew = 2 [json_name = "max_skew"];
+
+      // topology_key: string
+      string topology_key = 3 [json_name = "topology_key"];
+
+      // when_unsatisfiable: string
+      string when_unsatisfiable = 4 [json_name = "when_unsatisfiable"];
+
+      message LabelSelector {
+        // match_expressions: list of object
+        repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+        // match_labels: map of string
+        map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+        message MatchExpressions {
+          // key: string
+          string key = 1;
+
+          // operator: string
+          string operator = 2;
+
+          // values: set of string
+          repeated string values = 3;
+        }
+      }
+    }
+
+    message Volume {
+      // aws_elastic_block_store: list of object
+      repeated AwsElasticBlockStore aws_elastic_block_store = 1 [json_name = "aws_elastic_block_store"];
+
+      // azure_disk: list of object
+      repeated AzureDisk azure_disk = 2 [json_name = "azure_disk"];
+
+      // azure_file: list of object
+      repeated AzureFile azure_file = 3 [json_name = "azure_file"];
+
+      // ceph_fs: list of object
+      repeated CephFs ceph_fs = 4 [json_name = "ceph_fs"];
+
+      // cinder: list of object
+      repeated Cinder cinder = 5;
+
+      // config_map: list of object
+      repeated ConfigMap config_map = 6 [json_name = "config_map"];
+
+      // csi: list of object
+      repeated Csi csi = 7;
+
+      // downward_api: list of object
+      repeated DownwardApi downward_api = 8 [json_name = "downward_api"];
+
+      // empty_dir: list of object
+      repeated EmptyDir empty_dir = 9 [json_name = "empty_dir"];
+
+      // fc: list of object
+      repeated Fc fc = 10;
+
+      // flex_volume: list of object
+      repeated FlexVolume flex_volume = 11 [json_name = "flex_volume"];
+
+      // flocker: list of object
+      repeated Flocker flocker = 12;
+
+      // gce_persistent_disk: list of object
+      repeated GcePersistentDisk gce_persistent_disk = 13 [json_name = "gce_persistent_disk"];
+
+      // git_repo: list of object
+      repeated GitRepo git_repo = 14 [json_name = "git_repo"];
+
+      // glusterfs: list of object
+      repeated Glusterfs glusterfs = 15;
+
+      // host_path: list of object
+      repeated HostPath host_path = 16 [json_name = "host_path"];
+
+      // iscsi: list of object
+      repeated Iscsi iscsi = 17;
+
+      // local: list of object
+      repeated Local local = 18;
+
+      // name: string
+      string name = 19;
+
+      // nfs: list of object
+      repeated Nfs nfs = 20;
+
+      // persistent_volume_claim: list of object
+      repeated PersistentVolumeClaim persistent_volume_claim = 21 [json_name = "persistent_volume_claim"];
+
+      // photon_persistent_disk: list of object
+      repeated PhotonPersistentDisk photon_persistent_disk = 22 [json_name = "photon_persistent_disk"];
+
+      // projected: list of object
+      repeated Projected projected = 23;
+
+      // quobyte: list of object
+      repeated Quobyte quobyte = 24;
+
+      // rbd: list of object
+      repeated Rbd rbd = 25;
+
+      // secret: list of object
+      repeated Secret secret = 26;
+
+      // vsphere_volume: list of object
+      repeated VsphereVolume vsphere_volume = 27 [json_name = "vsphere_volume"];
+
+      message AwsElasticBlockStore {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // partition: number
+        int64 partition = 2;
+
+        // read_only: bool
+        bool read_only = 3 [json_name = "read_only"];
+
+        // volume_id: string
+        string volume_id = 4 [json_name = "volume_id"];
+      }
+
+      message AzureDisk {
+        // caching_mode: string
+        string caching_mode = 1 [json_name = "caching_mode"];
+
+        // data_disk_uri: string
+        string data_disk_uri = 2 [json_name = "data_disk_uri"];
+
+        // disk_name: string
+        string disk_name = 3 [json_name = "disk_name"];
+
+        // fs_type: string
+        string fs_type = 4 [json_name = "fs_type"];
+
+        // kind: string
+        string kind = 5;
+
+        // read_only: bool
+        bool read_only = 6 [json_name = "read_only"];
+      }
+
+      message AzureFile {
+        // read_only: bool
+        bool read_only = 1 [json_name = "read_only"];
+
+        // secret_name: string
+        string secret_name = 2 [json_name = "secret_name"];
+
+        // secret_namespace: string
+        string secret_namespace = 3 [json_name = "secret_namespace"];
+
+        // share_name: string
+        string share_name = 4 [json_name = "share_name"];
+      }
+
+      message CephFs {
+        // monitors: set of string
+        repeated string monitors = 1;
+
+        // path: string
+        string path = 2;
+
+        // read_only: bool
+        bool read_only = 3 [json_name = "read_only"];
+
+        // secret_file: string
+        string secret_file = 4 [json_name = "secret_file"];
+
+        // secret_ref: list of object
+        repeated SecretRef secret_ref = 5 [json_name = "secret_ref"];
+
+        // user: string
+        string user = 6;
+
+        message SecretRef {
+          // name: string
+          string name = 1;
+
+          // namespace: string
+          string namespace = 2;
+        }
+      }
+
+      message Cinder {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // read_only: bool
+        bool read_only = 2 [json_name = "read_only"];
+
+        // volume_id: string
+        string volume_id = 3 [json_name = "volume_id"];
+      }
+
+      message ConfigMap {
+        // default_mode: string
+        string default_mode = 1 [json_name = "default_mode"];
+
+        // items: list of object
+        repeated Items items = 2;
+
+        // name: string
+        string name = 3;
+
+        // optional: bool
+        bool optional = 4;
+
+        message Items {
+          // key: string
+          string key = 1;
+
+          // mode: string
+          string mode = 2;
+
+          // path: string
+          string path = 3;
+        }
+      }
+
+      message Csi {
+        // driver: string
+        string driver = 1;
+
+        // fs_type: string
+        string fs_type = 2 [json_name = "fs_type"];
+
+        // node_publish_secret_ref: list of object
+        repeated NodePublishSecretRef node_publish_secret_ref = 3 [json_name = "node_publish_secret_ref"];
+
+        // read_only: bool
+        bool read_only = 4 [json_name = "read_only"];
+
+        // volume_attributes: map of string
+        map<string, string> volume_attributes = 5 [json_name = "volume_attributes"];
+
+        message NodePublishSecretRef {
+          // name: string
+          string name = 1;
+        }
+      }
+
+      message DownwardApi {
+        // default_mode: string
+        string default_mode = 1 [json_name = "default_mode"];
+
+        // items: list of object
+        repeated Items items = 2;
+
+        message Items {
+          // field_ref: list of object
+          repeated FieldRef field_ref = 1 [json_name = "field_ref"];
+
+          // mode: string
+          string mode = 2;
+
+          // path: string
+          string path = 3;
+
+          // resource_field_ref: list of object
+          repeated ResourceFieldRef resource_field_ref = 4 [json_name = "resource_field_ref"];
+
+          message FieldRef {
+            // api_version: string
+            string api_version = 1 [json_name = "api_version"];
+
+            // field_path: string
+            string field_path = 2 [json_name = "field_path"];
+          }
+
+          message ResourceFieldRef {
+            // container_name: string
+            string container_name = 1 [json_name = "container_name"];
+
+            // divisor: string
+            string divisor = 2;
+
+            // resource: string
+            string resource = 3;
+          }
+        }
+      }
+
+      message EmptyDir {
+        // medium: string
+        string medium = 1;
+
+        // size_limit: string
+        string size_limit = 2 [json_name = "size_limit"];
+      }
+
+      message Fc {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // lun: number
+        int64 lun = 2;
+
+        // read_only: bool
+        bool read_only = 3 [json_name = "read_only"];
+
+        // target_ww_ns: set of string
+        repeated string target_ww_ns = 4 [json_name = "target_ww_ns"];
+      }
+
+      message FlexVolume {
+        // driver: string
+        string driver = 1;
+
+        // fs_type: string
+        string fs_type = 2 [json_name = "fs_type"];
+
+        // options: map of string
+        map<string, string> options = 3;
+
+        // read_only: bool
+        bool read_only = 4 [json_name = "read_only"];
+
+        // secret_ref: list of object
+        repeated SecretRef secret_ref = 5 [json_name = "secret_ref"];
+
+        message SecretRef {
+          // name: string
+          string name = 1;
+
+          // namespace: string
+          string namespace = 2;
+        }
+      }
+
+      message Flocker {
+        // dataset_name: string
+        string dataset_name = 1 [json_name = "dataset_name"];
+
+        // dataset_uuid: string
+        string dataset_uuid = 2 [json_name = "dataset_uuid"];
+      }
+
+      message GcePersistentDisk {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // partition: number
+        int64 partition = 2;
+
+        // pd_name: string
+        string pd_name = 3 [json_name = "pd_name"];
+
+        // read_only: bool
+        bool read_only = 4 [json_name = "read_only"];
+      }
+
+      message GitRepo {
+        // directory: string
+        string directory = 1;
+
+        // repository: string
+        string repository = 2;
+
+        // revision: string
+        string revision = 3;
+      }
+
+      message Glusterfs {
+        // endpoints_name: string
+        string endpoints_name = 1 [json_name = "endpoints_name"];
+
+        // path: string
+        string path = 2;
+
+        // read_only: bool
+        bool read_only = 3 [json_name = "read_only"];
+      }
+
+      message HostPath {
+        // path: string
+        string path = 1;
+
+        // type: string
+        string type = 2;
+      }
+
+      message Iscsi {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // iqn: string
+        string iqn = 2;
+
+        // iscsi_interface: string
+        string iscsi_interface = 3 [json_name = "iscsi_interface"];
+
+        // lun: number
+        int64 lun = 4;
+
+        // read_only: bool
+        bool read_only = 5 [json_name = "read_only"];
+
+        // target_portal: string
+        string target_portal = 6 [json_name = "target_portal"];
+      }
+
+      message Local {
+        // path: string
+        string path = 1;
+      }
+
+      message Nfs {
+        // path: string
+        string path = 1;
+
+        // read_only: bool
+        bool read_only = 2 [json_name = "read_only"];
+
+        // server: string
+        string server = 3;
+      }
+
+      message PersistentVolumeClaim {
+        // claim_name: string
+        string claim_name = 1 [json_name = "claim_name"];
+
+        // read_only: bool
+        bool read_only = 2 [json_name = "read_only"];
+      }
+
+      message PhotonPersistentDisk {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // pd_id: string
+        string pd_id = 2 [json_name = "pd_id"];
+      }
+
+      message Projected {
+        // default_mode: string
+        string default_mode = 1 [json_name = "default_mode"];
+
+        // sources: list of object
+        repeated Sources sources = 2;
+
+        message Sources {
+          // config_map: list of object
+          repeated ConfigMap config_map = 1 [json_name = "config_map"];
+
+          // downward_api: list of object
+          repeated DownwardApi downward_api = 2 [json_name = "downward_api"];
+
+          // secret: list of object
+          repeated Secret secret = 3;
+
+          // service_account_token: list of object
+          repeated ServiceAccountToken service_account_token = 4 [json_name = "service_account_token"];
+
+          message ConfigMap {
+            // items: list of object
+            repeated Items items = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+
+            message Items {
+              // key: string
+              string key = 1;
+
+              // mode: string
+              string mode = 2;
+
+              // path: string
+              string path = 3;
+            }
+          }
+
+          message DownwardApi {
+            // items: list of object
+            repeated Items items = 1;
+
+            message Items {
+              // field_ref: list of object
+              repeated FieldRef field_ref = 1 [json_name = "field_ref"];
+
+              // mode: string
+              string mode = 2;
+
+              // path: string
+              string path = 3;
+
+              // resource_field_ref: list of object
+              repeated ResourceFieldRef resource_field_ref = 4 [json_name = "resource_field_ref"];
+
+              message FieldRef {
+                // api_version: string
+                string api_version = 1 [json_name = "api_version"];
+
+                // field_path: string
+                string field_path = 2 [json_name = "field_path"];
+              }
+
+              message ResourceFieldRef {
+                // container_name: string
+                string container_name = 1 [json_name = "container_name"];
+
+                // divisor: string
+                string divisor = 2;
+
+                // resource: string
+                string resource = 3;
+              }
+            }
+          }
+
+          message Secret {
+            // items: list of object
+            repeated Items items = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+
+            message Items {
+              // key: string
+              string key = 1;
+
+              // mode: string
+              string mode = 2;
+
+              // path: string
+              string path = 3;
+            }
+          }
+
+          message ServiceAccountToken {
+            // audience: string
+            string audience = 1;
+
+            // expiration_seconds: number
+            int64 expiration_seconds = 2 [json_name = "expiration_seconds"];
+
+            // path: string
+            string path = 3;
+          }
+        }
+      }
+
+      message Quobyte {
+        // group: string
+        string group = 1;
+
+        // read_only: bool
+        bool read_only = 2 [json_name = "read_only"];
+
+        // registry: string
+        string registry = 3;
+
+        // user: string
+        string user = 4;
+
+        // volume: string
+        string volume = 5;
+      }
+
+      message Rbd {
+        // ceph_monitors: set of string
+        repeated string ceph_monitors = 1 [json_name = "ceph_monitors"];
+
+        // fs_type: string
+        string fs_type = 2 [json_name = "fs_type"];
+
+        // keyring: string
+        string keyring = 3;
+
+        // rados_user: string
+        string rados_user = 4 [json_name = "rados_user"];
+
+        // rbd_image: string
+        string rbd_image = 5 [json_name = "rbd_image"];
+
+        // rbd_pool: string
+        string rbd_pool = 6 [json_name = "rbd_pool"];
+
+        // read_only: bool
+        bool read_only = 7 [json_name = "read_only"];
+
+        // secret_ref: list of object
+        repeated SecretRef secret_ref = 8 [json_name = "secret_ref"];
+
+        message SecretRef {
+          // name: string
+          string name = 1;
+
+          // namespace: string
+          string namespace = 2;
+        }
+      }
+
+      message Secret {
+        // default_mode: string
+        string default_mode = 1 [json_name = "default_mode"];
+
+        // items: list of object
+        repeated Items items = 2;
+
+        // optional: bool
+        bool optional = 3;
+
+        // secret_name: string
+        string secret_name = 4 [json_name = "secret_name"];
+
+        message Items {
+          // key: string
+          string key = 1;
+
+          // mode: string
+          string mode = 2;
+
+          // path: string
+          string path = 3;
+        }
+      }
+
+      message VsphereVolume {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // volume_path: string
+        string volume_path = 2 [json_name = "volume_path"];
+      }
+    }
+  }
+
+  message Metadata {
+    // An unstructured key value map stored with the pod that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the pod. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the pod, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // Namespace defines the space within which name of the pod must be unique.
+    string namespace = 6;
+
+    // An opaque value that represents the internal version of this pod that can be used by clients to determine when pod has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 7 [json_name = "resource_version"];
+
+    // The unique in time and space value for this pod. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 8;
+  }
+}
+
+// KubernetesPodV1 version is 0
+message KubernetesPodV1 {
+  string id = 1;
+
+  // Specification of the desired behavior of the pod.
+  repeated Spec spec = 2;
+
+  string status = 3;
+
+  Metadata metadata = 4;
+
+  map<string, string> for_each = 5 [json_name = "for_each"];
+
+  repeated string depends_on = 6 [json_name = "depends_on"];
+
+  int32 count = 7;
+
+  string provider = 8;
+
+  terraform.v1.Lifecycle lifecycle = 9;
+
+  message Spec {
+    // active_deadline_seconds: number
+    int64 active_deadline_seconds = 1 [json_name = "active_deadline_seconds"];
+
+    // affinity: list of object
+    repeated Affinity affinity = 2;
+
+    // automount_service_account_token: bool
+    bool automount_service_account_token = 3 [json_name = "automount_service_account_token"];
+
+    // container: list of object
+    repeated Container container = 4;
+
+    // dns_config: list of object
+    repeated DnsConfig dns_config = 5 [json_name = "dns_config"];
+
+    // dns_policy: string
+    string dns_policy = 6 [json_name = "dns_policy"];
+
+    // enable_service_links: bool
+    bool enable_service_links = 7 [json_name = "enable_service_links"];
+
+    // host_aliases: list of object
+    repeated HostAliases host_aliases = 8 [json_name = "host_aliases"];
+
+    // host_ipc: bool
+    bool host_ipc = 9 [json_name = "host_ipc"];
+
+    // host_network: bool
+    bool host_network = 10 [json_name = "host_network"];
+
+    // host_pid: bool
+    bool host_pid = 11 [json_name = "host_pid"];
+
+    // hostname: string
+    string hostname = 12;
+
+    // image_pull_secrets: list of object
+    repeated ImagePullSecrets image_pull_secrets = 13 [json_name = "image_pull_secrets"];
+
+    // init_container: list of object
+    repeated InitContainer init_container = 14 [json_name = "init_container"];
+
+    // node_name: string
+    string node_name = 15 [json_name = "node_name"];
+
+    // node_selector: map of string
+    map<string, string> node_selector = 16 [json_name = "node_selector"];
+
+    // priority_class_name: string
+    string priority_class_name = 17 [json_name = "priority_class_name"];
+
+    // readiness_gate: list of object
+    repeated ReadinessGate readiness_gate = 18 [json_name = "readiness_gate"];
+
+    // restart_policy: string
+    string restart_policy = 19 [json_name = "restart_policy"];
+
+    // runtime_class_name: string
+    string runtime_class_name = 20 [json_name = "runtime_class_name"];
+
+    // scheduler_name: string
+    string scheduler_name = 21 [json_name = "scheduler_name"];
+
+    // security_context: list of object
+    repeated SecurityContext security_context = 22 [json_name = "security_context"];
+
+    // service_account_name: string
+    string service_account_name = 23 [json_name = "service_account_name"];
+
+    // share_process_namespace: bool
+    bool share_process_namespace = 24 [json_name = "share_process_namespace"];
+
+    // subdomain: string
+    string subdomain = 25;
+
+    // termination_grace_period_seconds: number
+    int64 termination_grace_period_seconds = 26 [json_name = "termination_grace_period_seconds"];
+
+    // toleration: list of object
+    repeated Toleration toleration = 27;
+
+    // topology_spread_constraint: list of object
+    repeated TopologySpreadConstraint topology_spread_constraint = 28 [json_name = "topology_spread_constraint"];
+
+    // volume: list of object
+    repeated Volume volume = 29;
+
+    message Affinity {
+      // node_affinity: list of object
+      repeated NodeAffinity node_affinity = 1 [json_name = "node_affinity"];
+
+      // pod_affinity: list of object
+      repeated PodAffinity pod_affinity = 2 [json_name = "pod_affinity"];
+
+      // pod_anti_affinity: list of object
+      repeated PodAntiAffinity pod_anti_affinity = 3 [json_name = "pod_anti_affinity"];
+
+      message NodeAffinity {
+        // preferred_during_scheduling_ignored_during_execution: list of object
+        repeated PreferredDuringSchedulingIgnoredDuringExecution preferred_during_scheduling_ignored_during_execution = 1 [
+          json_name = "preferred_during_scheduling_ignored_during_execution"
+        ];
+
+        // required_during_scheduling_ignored_during_execution: list of object
+        repeated RequiredDuringSchedulingIgnoredDuringExecution required_during_scheduling_ignored_during_execution = 2 [
+          json_name = "required_during_scheduling_ignored_during_execution"
+        ];
+
+        message PreferredDuringSchedulingIgnoredDuringExecution {
+          // preference: list of object
+          repeated Preference preference = 1;
+
+          // weight: number
+          int64 weight = 2;
+
+          message Preference {
+            // match_expressions: list of object
+            repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+            message MatchExpressions {
+              // key: string
+              string key = 1;
+
+              // operator: string
+              string operator = 2;
+
+              // values: set of string
+              repeated string values = 3;
+            }
+          }
+        }
+
+        message RequiredDuringSchedulingIgnoredDuringExecution {
+          // node_selector_term: list of object
+          repeated NodeSelectorTerm node_selector_term = 1 [json_name = "node_selector_term"];
+
+          message NodeSelectorTerm {
+            // match_expressions: list of object
+            repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+            message MatchExpressions {
+              // key: string
+              string key = 1;
+
+              // operator: string
+              string operator = 2;
+
+              // values: set of string
+              repeated string values = 3;
+            }
+          }
+        }
+      }
+
+      message PodAffinity {
+        // preferred_during_scheduling_ignored_during_execution: list of object
+        repeated PreferredDuringSchedulingIgnoredDuringExecution preferred_during_scheduling_ignored_during_execution = 1 [
+          json_name = "preferred_during_scheduling_ignored_during_execution"
+        ];
+
+        // required_during_scheduling_ignored_during_execution: list of object
+        repeated RequiredDuringSchedulingIgnoredDuringExecution required_during_scheduling_ignored_during_execution = 2 [
+          json_name = "required_during_scheduling_ignored_during_execution"
+        ];
+
+        message PreferredDuringSchedulingIgnoredDuringExecution {
+          // pod_affinity_term: list of object
+          repeated PodAffinityTerm pod_affinity_term = 1 [json_name = "pod_affinity_term"];
+
+          // weight: number
+          int64 weight = 2;
+
+          message PodAffinityTerm {
+            // label_selector: list of object
+            repeated LabelSelector label_selector = 1 [json_name = "label_selector"];
+
+            // namespaces: set of string
+            repeated string namespaces = 2;
+
+            // topology_key: string
+            string topology_key = 3 [json_name = "topology_key"];
+
+            message LabelSelector {
+              // match_expressions: list of object
+              repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+              // match_labels: map of string
+              map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+              message MatchExpressions {
+                // key: string
+                string key = 1;
+
+                // operator: string
+                string operator = 2;
+
+                // values: set of string
+                repeated string values = 3;
+              }
+            }
+          }
+        }
+
+        message RequiredDuringSchedulingIgnoredDuringExecution {
+          // label_selector: list of object
+          repeated LabelSelector label_selector = 1 [json_name = "label_selector"];
+
+          // namespaces: set of string
+          repeated string namespaces = 2;
+
+          // topology_key: string
+          string topology_key = 3 [json_name = "topology_key"];
+
+          message LabelSelector {
+            // match_expressions: list of object
+            repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+            // match_labels: map of string
+            map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+            message MatchExpressions {
+              // key: string
+              string key = 1;
+
+              // operator: string
+              string operator = 2;
+
+              // values: set of string
+              repeated string values = 3;
+            }
+          }
+        }
+      }
+
+      message PodAntiAffinity {
+        // preferred_during_scheduling_ignored_during_execution: list of object
+        repeated PreferredDuringSchedulingIgnoredDuringExecution preferred_during_scheduling_ignored_during_execution = 1 [
+          json_name = "preferred_during_scheduling_ignored_during_execution"
+        ];
+
+        // required_during_scheduling_ignored_during_execution: list of object
+        repeated RequiredDuringSchedulingIgnoredDuringExecution required_during_scheduling_ignored_during_execution = 2 [
+          json_name = "required_during_scheduling_ignored_during_execution"
+        ];
+
+        message PreferredDuringSchedulingIgnoredDuringExecution {
+          // pod_affinity_term: list of object
+          repeated PodAffinityTerm pod_affinity_term = 1 [json_name = "pod_affinity_term"];
+
+          // weight: number
+          int64 weight = 2;
+
+          message PodAffinityTerm {
+            // label_selector: list of object
+            repeated LabelSelector label_selector = 1 [json_name = "label_selector"];
+
+            // namespaces: set of string
+            repeated string namespaces = 2;
+
+            // topology_key: string
+            string topology_key = 3 [json_name = "topology_key"];
+
+            message LabelSelector {
+              // match_expressions: list of object
+              repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+              // match_labels: map of string
+              map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+              message MatchExpressions {
+                // key: string
+                string key = 1;
+
+                // operator: string
+                string operator = 2;
+
+                // values: set of string
+                repeated string values = 3;
+              }
+            }
+          }
+        }
+
+        message RequiredDuringSchedulingIgnoredDuringExecution {
+          // label_selector: list of object
+          repeated LabelSelector label_selector = 1 [json_name = "label_selector"];
+
+          // namespaces: set of string
+          repeated string namespaces = 2;
+
+          // topology_key: string
+          string topology_key = 3 [json_name = "topology_key"];
+
+          message LabelSelector {
+            // match_expressions: list of object
+            repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+            // match_labels: map of string
+            map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+            message MatchExpressions {
+              // key: string
+              string key = 1;
+
+              // operator: string
+              string operator = 2;
+
+              // values: set of string
+              repeated string values = 3;
+            }
+          }
+        }
+      }
+    }
+
+    message Container {
+      // args: list of string
+      repeated string args = 1;
+
+      // command: list of string
+      repeated string command = 2;
+
+      // env: list of object
+      repeated Env env = 3;
+
+      // env_from: list of object
+      repeated EnvFrom env_from = 4 [json_name = "env_from"];
+
+      // image: string
+      string image = 5;
+
+      // image_pull_policy: string
+      string image_pull_policy = 6 [json_name = "image_pull_policy"];
+
+      // lifecycle: list of object
+      repeated Lifecycle lifecycle = 7;
+
+      // liveness_probe: list of object
+      repeated LivenessProbe liveness_probe = 8 [json_name = "liveness_probe"];
+
+      // name: string
+      string name = 9;
+
+      // port: list of object
+      repeated Port port = 10;
+
+      // readiness_probe: list of object
+      repeated ReadinessProbe readiness_probe = 11 [json_name = "readiness_probe"];
+
+      // resources: list of object
+      repeated Resources resources = 12;
+
+      // security_context: list of object
+      repeated SecurityContext security_context = 13 [json_name = "security_context"];
+
+      // startup_probe: list of object
+      repeated StartupProbe startup_probe = 14 [json_name = "startup_probe"];
+
+      // stdin: bool
+      bool stdin = 15;
+
+      // stdin_once: bool
+      bool stdin_once = 16 [json_name = "stdin_once"];
+
+      // termination_message_path: string
+      string termination_message_path = 17 [json_name = "termination_message_path"];
+
+      // termination_message_policy: string
+      string termination_message_policy = 18 [json_name = "termination_message_policy"];
+
+      // tty: bool
+      bool tty = 19;
+
+      // volume_mount: list of object
+      repeated VolumeMount volume_mount = 20 [json_name = "volume_mount"];
+
+      // working_dir: string
+      string working_dir = 21 [json_name = "working_dir"];
+
+      message Env {
+        // name: string
+        string name = 1;
+
+        // value: string
+        string value = 2;
+
+        // value_from: list of object
+        repeated ValueFrom value_from = 3 [json_name = "value_from"];
+
+        message ValueFrom {
+          // config_map_key_ref: list of object
+          repeated ConfigMapKeyRef config_map_key_ref = 1 [json_name = "config_map_key_ref"];
+
+          // field_ref: list of object
+          repeated FieldRef field_ref = 2 [json_name = "field_ref"];
+
+          // resource_field_ref: list of object
+          repeated ResourceFieldRef resource_field_ref = 3 [json_name = "resource_field_ref"];
+
+          // secret_key_ref: list of object
+          repeated SecretKeyRef secret_key_ref = 4 [json_name = "secret_key_ref"];
+
+          message ConfigMapKeyRef {
+            // key: string
+            string key = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+          }
+
+          message FieldRef {
+            // api_version: string
+            string api_version = 1 [json_name = "api_version"];
+
+            // field_path: string
+            string field_path = 2 [json_name = "field_path"];
+          }
+
+          message ResourceFieldRef {
+            // container_name: string
+            string container_name = 1 [json_name = "container_name"];
+
+            // divisor: string
+            string divisor = 2;
+
+            // resource: string
+            string resource = 3;
+          }
+
+          message SecretKeyRef {
+            // key: string
+            string key = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+          }
+        }
+      }
+
+      message EnvFrom {
+        // config_map_ref: list of object
+        repeated ConfigMapRef config_map_ref = 1 [json_name = "config_map_ref"];
+
+        // prefix: string
+        string prefix = 2;
+
+        // secret_ref: list of object
+        repeated SecretRef secret_ref = 3 [json_name = "secret_ref"];
+
+        message ConfigMapRef {
+          // name: string
+          string name = 1;
+
+          // optional: bool
+          bool optional = 2;
+        }
+
+        message SecretRef {
+          // name: string
+          string name = 1;
+
+          // optional: bool
+          bool optional = 2;
+        }
+      }
+
+      message Lifecycle {
+        // post_start: list of object
+        repeated PostStart post_start = 1 [json_name = "post_start"];
+
+        // pre_stop: list of object
+        repeated PreStop pre_stop = 2 [json_name = "pre_stop"];
+
+        message PostStart {
+          // exec: list of object
+          repeated Exec exec = 1;
+
+          // http_get: list of object
+          repeated HttpGet http_get = 2 [json_name = "http_get"];
+
+          // tcp_socket: list of object
+          repeated TcpSocket tcp_socket = 3 [json_name = "tcp_socket"];
+
+          message Exec {
+            // command: list of string
+            repeated string command = 1;
+          }
+
+          message HttpGet {
+            // host: string
+            string host = 1;
+
+            // http_header: list of object
+            repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+            // path: string
+            string path = 3;
+
+            // port: string
+            string port = 4;
+
+            // scheme: string
+            string scheme = 5;
+
+            message HttpHeader {
+              // name: string
+              string name = 1;
+
+              // value: string
+              string value = 2;
+            }
+          }
+
+          message TcpSocket {
+            // port: string
+            string port = 1;
+          }
+        }
+
+        message PreStop {
+          // exec: list of object
+          repeated Exec exec = 1;
+
+          // http_get: list of object
+          repeated HttpGet http_get = 2 [json_name = "http_get"];
+
+          // tcp_socket: list of object
+          repeated TcpSocket tcp_socket = 3 [json_name = "tcp_socket"];
+
+          message Exec {
+            // command: list of string
+            repeated string command = 1;
+          }
+
+          message HttpGet {
+            // host: string
+            string host = 1;
+
+            // http_header: list of object
+            repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+            // path: string
+            string path = 3;
+
+            // port: string
+            string port = 4;
+
+            // scheme: string
+            string scheme = 5;
+
+            message HttpHeader {
+              // name: string
+              string name = 1;
+
+              // value: string
+              string value = 2;
+            }
+          }
+
+          message TcpSocket {
+            // port: string
+            string port = 1;
+          }
+        }
+      }
+
+      message LivenessProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message Port {
+        // container_port: number
+        int64 container_port = 1 [json_name = "container_port"];
+
+        // host_ip: string
+        string host_ip = 2 [json_name = "host_ip"];
+
+        // host_port: number
+        int64 host_port = 3 [json_name = "host_port"];
+
+        // name: string
+        string name = 4;
+
+        // protocol: string
+        string protocol = 5;
+      }
+
+      message ReadinessProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message Resources {
+        // limits: map of string
+        map<string, string> limits = 1;
+
+        // requests: map of string
+        map<string, string> requests = 2;
+      }
+
+      message SecurityContext {
+        // allow_privilege_escalation: bool
+        bool allow_privilege_escalation = 1 [json_name = "allow_privilege_escalation"];
+
+        // capabilities: list of object
+        repeated Capabilities capabilities = 2;
+
+        // privileged: bool
+        bool privileged = 3;
+
+        // read_only_root_filesystem: bool
+        bool read_only_root_filesystem = 4 [json_name = "read_only_root_filesystem"];
+
+        // run_as_group: string
+        string run_as_group = 5 [json_name = "run_as_group"];
+
+        // run_as_non_root: bool
+        bool run_as_non_root = 6 [json_name = "run_as_non_root"];
+
+        // run_as_user: string
+        string run_as_user = 7 [json_name = "run_as_user"];
+
+        // se_linux_options: list of object
+        repeated SeLinuxOptions se_linux_options = 8 [json_name = "se_linux_options"];
+
+        // seccomp_profile: list of object
+        repeated SeccompProfile seccomp_profile = 9 [json_name = "seccomp_profile"];
+
+        message Capabilities {
+          // add: list of string
+          repeated string add = 1;
+
+          // drop: list of string
+          repeated string drop = 2;
+        }
+
+        message SeLinuxOptions {
+          // level: string
+          string level = 1;
+
+          // role: string
+          string role = 2;
+
+          // type: string
+          string type = 3;
+
+          // user: string
+          string user = 4;
+        }
+
+        message SeccompProfile {
+          // localhost_profile: string
+          string localhost_profile = 1 [json_name = "localhost_profile"];
+
+          // type: string
+          string type = 2;
+        }
+      }
+
+      message StartupProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message VolumeMount {
+        // mount_path: string
+        string mount_path = 1 [json_name = "mount_path"];
+
+        // mount_propagation: string
+        string mount_propagation = 2 [json_name = "mount_propagation"];
+
+        // name: string
+        string name = 3;
+
+        // read_only: bool
+        bool read_only = 4 [json_name = "read_only"];
+
+        // sub_path: string
+        string sub_path = 5 [json_name = "sub_path"];
+      }
+    }
+
+    message DnsConfig {
+      // nameservers: list of string
+      repeated string nameservers = 1;
+
+      // option: list of object
+      repeated Option option = 2;
+
+      // searches: list of string
+      repeated string searches = 3;
+
+      message Option {
+        // name: string
+        string name = 1;
+
+        // value: string
+        string value = 2;
+      }
+    }
+
+    message HostAliases {
+      // hostnames: list of string
+      repeated string hostnames = 1;
+
+      // ip: string
+      string ip = 2;
+    }
+
+    message ImagePullSecrets {
+      // name: string
+      string name = 1;
+    }
+
+    message InitContainer {
+      // args: list of string
+      repeated string args = 1;
+
+      // command: list of string
+      repeated string command = 2;
+
+      // env: list of object
+      repeated Env env = 3;
+
+      // env_from: list of object
+      repeated EnvFrom env_from = 4 [json_name = "env_from"];
+
+      // image: string
+      string image = 5;
+
+      // image_pull_policy: string
+      string image_pull_policy = 6 [json_name = "image_pull_policy"];
+
+      // lifecycle: list of object
+      repeated Lifecycle lifecycle = 7;
+
+      // liveness_probe: list of object
+      repeated LivenessProbe liveness_probe = 8 [json_name = "liveness_probe"];
+
+      // name: string
+      string name = 9;
+
+      // port: list of object
+      repeated Port port = 10;
+
+      // readiness_probe: list of object
+      repeated ReadinessProbe readiness_probe = 11 [json_name = "readiness_probe"];
+
+      // resources: list of object
+      repeated Resources resources = 12;
+
+      // security_context: list of object
+      repeated SecurityContext security_context = 13 [json_name = "security_context"];
+
+      // startup_probe: list of object
+      repeated StartupProbe startup_probe = 14 [json_name = "startup_probe"];
+
+      // stdin: bool
+      bool stdin = 15;
+
+      // stdin_once: bool
+      bool stdin_once = 16 [json_name = "stdin_once"];
+
+      // termination_message_path: string
+      string termination_message_path = 17 [json_name = "termination_message_path"];
+
+      // termination_message_policy: string
+      string termination_message_policy = 18 [json_name = "termination_message_policy"];
+
+      // tty: bool
+      bool tty = 19;
+
+      // volume_mount: list of object
+      repeated VolumeMount volume_mount = 20 [json_name = "volume_mount"];
+
+      // working_dir: string
+      string working_dir = 21 [json_name = "working_dir"];
+
+      message Env {
+        // name: string
+        string name = 1;
+
+        // value: string
+        string value = 2;
+
+        // value_from: list of object
+        repeated ValueFrom value_from = 3 [json_name = "value_from"];
+
+        message ValueFrom {
+          // config_map_key_ref: list of object
+          repeated ConfigMapKeyRef config_map_key_ref = 1 [json_name = "config_map_key_ref"];
+
+          // field_ref: list of object
+          repeated FieldRef field_ref = 2 [json_name = "field_ref"];
+
+          // resource_field_ref: list of object
+          repeated ResourceFieldRef resource_field_ref = 3 [json_name = "resource_field_ref"];
+
+          // secret_key_ref: list of object
+          repeated SecretKeyRef secret_key_ref = 4 [json_name = "secret_key_ref"];
+
+          message ConfigMapKeyRef {
+            // key: string
+            string key = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+          }
+
+          message FieldRef {
+            // api_version: string
+            string api_version = 1 [json_name = "api_version"];
+
+            // field_path: string
+            string field_path = 2 [json_name = "field_path"];
+          }
+
+          message ResourceFieldRef {
+            // container_name: string
+            string container_name = 1 [json_name = "container_name"];
+
+            // divisor: string
+            string divisor = 2;
+
+            // resource: string
+            string resource = 3;
+          }
+
+          message SecretKeyRef {
+            // key: string
+            string key = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+          }
+        }
+      }
+
+      message EnvFrom {
+        // config_map_ref: list of object
+        repeated ConfigMapRef config_map_ref = 1 [json_name = "config_map_ref"];
+
+        // prefix: string
+        string prefix = 2;
+
+        // secret_ref: list of object
+        repeated SecretRef secret_ref = 3 [json_name = "secret_ref"];
+
+        message ConfigMapRef {
+          // name: string
+          string name = 1;
+
+          // optional: bool
+          bool optional = 2;
+        }
+
+        message SecretRef {
+          // name: string
+          string name = 1;
+
+          // optional: bool
+          bool optional = 2;
+        }
+      }
+
+      message Lifecycle {
+        // post_start: list of object
+        repeated PostStart post_start = 1 [json_name = "post_start"];
+
+        // pre_stop: list of object
+        repeated PreStop pre_stop = 2 [json_name = "pre_stop"];
+
+        message PostStart {
+          // exec: list of object
+          repeated Exec exec = 1;
+
+          // http_get: list of object
+          repeated HttpGet http_get = 2 [json_name = "http_get"];
+
+          // tcp_socket: list of object
+          repeated TcpSocket tcp_socket = 3 [json_name = "tcp_socket"];
+
+          message Exec {
+            // command: list of string
+            repeated string command = 1;
+          }
+
+          message HttpGet {
+            // host: string
+            string host = 1;
+
+            // http_header: list of object
+            repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+            // path: string
+            string path = 3;
+
+            // port: string
+            string port = 4;
+
+            // scheme: string
+            string scheme = 5;
+
+            message HttpHeader {
+              // name: string
+              string name = 1;
+
+              // value: string
+              string value = 2;
+            }
+          }
+
+          message TcpSocket {
+            // port: string
+            string port = 1;
+          }
+        }
+
+        message PreStop {
+          // exec: list of object
+          repeated Exec exec = 1;
+
+          // http_get: list of object
+          repeated HttpGet http_get = 2 [json_name = "http_get"];
+
+          // tcp_socket: list of object
+          repeated TcpSocket tcp_socket = 3 [json_name = "tcp_socket"];
+
+          message Exec {
+            // command: list of string
+            repeated string command = 1;
+          }
+
+          message HttpGet {
+            // host: string
+            string host = 1;
+
+            // http_header: list of object
+            repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+            // path: string
+            string path = 3;
+
+            // port: string
+            string port = 4;
+
+            // scheme: string
+            string scheme = 5;
+
+            message HttpHeader {
+              // name: string
+              string name = 1;
+
+              // value: string
+              string value = 2;
+            }
+          }
+
+          message TcpSocket {
+            // port: string
+            string port = 1;
+          }
+        }
+      }
+
+      message LivenessProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message Port {
+        // container_port: number
+        int64 container_port = 1 [json_name = "container_port"];
+
+        // host_ip: string
+        string host_ip = 2 [json_name = "host_ip"];
+
+        // host_port: number
+        int64 host_port = 3 [json_name = "host_port"];
+
+        // name: string
+        string name = 4;
+
+        // protocol: string
+        string protocol = 5;
+      }
+
+      message ReadinessProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message Resources {
+        // limits: map of string
+        map<string, string> limits = 1;
+
+        // requests: map of string
+        map<string, string> requests = 2;
+      }
+
+      message SecurityContext {
+        // allow_privilege_escalation: bool
+        bool allow_privilege_escalation = 1 [json_name = "allow_privilege_escalation"];
+
+        // capabilities: list of object
+        repeated Capabilities capabilities = 2;
+
+        // privileged: bool
+        bool privileged = 3;
+
+        // read_only_root_filesystem: bool
+        bool read_only_root_filesystem = 4 [json_name = "read_only_root_filesystem"];
+
+        // run_as_group: string
+        string run_as_group = 5 [json_name = "run_as_group"];
+
+        // run_as_non_root: bool
+        bool run_as_non_root = 6 [json_name = "run_as_non_root"];
+
+        // run_as_user: string
+        string run_as_user = 7 [json_name = "run_as_user"];
+
+        // se_linux_options: list of object
+        repeated SeLinuxOptions se_linux_options = 8 [json_name = "se_linux_options"];
+
+        // seccomp_profile: list of object
+        repeated SeccompProfile seccomp_profile = 9 [json_name = "seccomp_profile"];
+
+        message Capabilities {
+          // add: list of string
+          repeated string add = 1;
+
+          // drop: list of string
+          repeated string drop = 2;
+        }
+
+        message SeLinuxOptions {
+          // level: string
+          string level = 1;
+
+          // role: string
+          string role = 2;
+
+          // type: string
+          string type = 3;
+
+          // user: string
+          string user = 4;
+        }
+
+        message SeccompProfile {
+          // localhost_profile: string
+          string localhost_profile = 1 [json_name = "localhost_profile"];
+
+          // type: string
+          string type = 2;
+        }
+      }
+
+      message StartupProbe {
+        // exec: list of object
+        repeated Exec exec = 1;
+
+        // failure_threshold: number
+        int64 failure_threshold = 2 [json_name = "failure_threshold"];
+
+        // grpc: list of object
+        repeated Grpc grpc = 3;
+
+        // http_get: list of object
+        repeated HttpGet http_get = 4 [json_name = "http_get"];
+
+        // initial_delay_seconds: number
+        int64 initial_delay_seconds = 5 [json_name = "initial_delay_seconds"];
+
+        // period_seconds: number
+        int64 period_seconds = 6 [json_name = "period_seconds"];
+
+        // success_threshold: number
+        int64 success_threshold = 7 [json_name = "success_threshold"];
+
+        // tcp_socket: list of object
+        repeated TcpSocket tcp_socket = 8 [json_name = "tcp_socket"];
+
+        // timeout_seconds: number
+        int64 timeout_seconds = 9 [json_name = "timeout_seconds"];
+
+        message Exec {
+          // command: list of string
+          repeated string command = 1;
+        }
+
+        message Grpc {
+          // port: number
+          int64 port = 1;
+
+          // service: string
+          string service = 2;
+        }
+
+        message HttpGet {
+          // host: string
+          string host = 1;
+
+          // http_header: list of object
+          repeated HttpHeader http_header = 2 [json_name = "http_header"];
+
+          // path: string
+          string path = 3;
+
+          // port: string
+          string port = 4;
+
+          // scheme: string
+          string scheme = 5;
+
+          message HttpHeader {
+            // name: string
+            string name = 1;
+
+            // value: string
+            string value = 2;
+          }
+        }
+
+        message TcpSocket {
+          // port: string
+          string port = 1;
+        }
+      }
+
+      message VolumeMount {
+        // mount_path: string
+        string mount_path = 1 [json_name = "mount_path"];
+
+        // mount_propagation: string
+        string mount_propagation = 2 [json_name = "mount_propagation"];
+
+        // name: string
+        string name = 3;
+
+        // read_only: bool
+        bool read_only = 4 [json_name = "read_only"];
+
+        // sub_path: string
+        string sub_path = 5 [json_name = "sub_path"];
+      }
+    }
+
+    message ReadinessGate {
+      // condition_type: string
+      string condition_type = 1 [json_name = "condition_type"];
+    }
+
+    message SecurityContext {
+      // fs_group: string
+      string fs_group = 1 [json_name = "fs_group"];
+
+      // fs_group_change_policy: string
+      string fs_group_change_policy = 2 [json_name = "fs_group_change_policy"];
+
+      // run_as_group: string
+      string run_as_group = 3 [json_name = "run_as_group"];
+
+      // run_as_non_root: bool
+      bool run_as_non_root = 4 [json_name = "run_as_non_root"];
+
+      // run_as_user: string
+      string run_as_user = 5 [json_name = "run_as_user"];
+
+      // se_linux_options: list of object
+      repeated SeLinuxOptions se_linux_options = 6 [json_name = "se_linux_options"];
+
+      // seccomp_profile: list of object
+      repeated SeccompProfile seccomp_profile = 7 [json_name = "seccomp_profile"];
+
+      // supplemental_groups: set of number
+      repeated int64 supplemental_groups = 8 [json_name = "supplemental_groups"];
+
+      // sysctl: list of object
+      repeated Sysctl sysctl = 9;
+
+      message SeLinuxOptions {
+        // level: string
+        string level = 1;
+
+        // role: string
+        string role = 2;
+
+        // type: string
+        string type = 3;
+
+        // user: string
+        string user = 4;
+      }
+
+      message SeccompProfile {
+        // localhost_profile: string
+        string localhost_profile = 1 [json_name = "localhost_profile"];
+
+        // type: string
+        string type = 2;
+      }
+
+      message Sysctl {
+        // name: string
+        string name = 1;
+
+        // value: string
+        string value = 2;
+      }
+    }
+
+    message Toleration {
+      // effect: string
+      string effect = 1;
+
+      // key: string
+      string key = 2;
+
+      // operator: string
+      string operator = 3;
+
+      // toleration_seconds: string
+      string toleration_seconds = 4 [json_name = "toleration_seconds"];
+
+      // value: string
+      string value = 5;
+    }
+
+    message TopologySpreadConstraint {
+      // label_selector: list of object
+      repeated LabelSelector label_selector = 1 [json_name = "label_selector"];
+
+      // max_skew: number
+      int64 max_skew = 2 [json_name = "max_skew"];
+
+      // topology_key: string
+      string topology_key = 3 [json_name = "topology_key"];
+
+      // when_unsatisfiable: string
+      string when_unsatisfiable = 4 [json_name = "when_unsatisfiable"];
+
+      message LabelSelector {
+        // match_expressions: list of object
+        repeated MatchExpressions match_expressions = 1 [json_name = "match_expressions"];
+
+        // match_labels: map of string
+        map<string, string> match_labels = 2 [json_name = "match_labels"];
+
+        message MatchExpressions {
+          // key: string
+          string key = 1;
+
+          // operator: string
+          string operator = 2;
+
+          // values: set of string
+          repeated string values = 3;
+        }
+      }
+    }
+
+    message Volume {
+      // aws_elastic_block_store: list of object
+      repeated AwsElasticBlockStore aws_elastic_block_store = 1 [json_name = "aws_elastic_block_store"];
+
+      // azure_disk: list of object
+      repeated AzureDisk azure_disk = 2 [json_name = "azure_disk"];
+
+      // azure_file: list of object
+      repeated AzureFile azure_file = 3 [json_name = "azure_file"];
+
+      // ceph_fs: list of object
+      repeated CephFs ceph_fs = 4 [json_name = "ceph_fs"];
+
+      // cinder: list of object
+      repeated Cinder cinder = 5;
+
+      // config_map: list of object
+      repeated ConfigMap config_map = 6 [json_name = "config_map"];
+
+      // csi: list of object
+      repeated Csi csi = 7;
+
+      // downward_api: list of object
+      repeated DownwardApi downward_api = 8 [json_name = "downward_api"];
+
+      // empty_dir: list of object
+      repeated EmptyDir empty_dir = 9 [json_name = "empty_dir"];
+
+      // fc: list of object
+      repeated Fc fc = 10;
+
+      // flex_volume: list of object
+      repeated FlexVolume flex_volume = 11 [json_name = "flex_volume"];
+
+      // flocker: list of object
+      repeated Flocker flocker = 12;
+
+      // gce_persistent_disk: list of object
+      repeated GcePersistentDisk gce_persistent_disk = 13 [json_name = "gce_persistent_disk"];
+
+      // git_repo: list of object
+      repeated GitRepo git_repo = 14 [json_name = "git_repo"];
+
+      // glusterfs: list of object
+      repeated Glusterfs glusterfs = 15;
+
+      // host_path: list of object
+      repeated HostPath host_path = 16 [json_name = "host_path"];
+
+      // iscsi: list of object
+      repeated Iscsi iscsi = 17;
+
+      // local: list of object
+      repeated Local local = 18;
+
+      // name: string
+      string name = 19;
+
+      // nfs: list of object
+      repeated Nfs nfs = 20;
+
+      // persistent_volume_claim: list of object
+      repeated PersistentVolumeClaim persistent_volume_claim = 21 [json_name = "persistent_volume_claim"];
+
+      // photon_persistent_disk: list of object
+      repeated PhotonPersistentDisk photon_persistent_disk = 22 [json_name = "photon_persistent_disk"];
+
+      // projected: list of object
+      repeated Projected projected = 23;
+
+      // quobyte: list of object
+      repeated Quobyte quobyte = 24;
+
+      // rbd: list of object
+      repeated Rbd rbd = 25;
+
+      // secret: list of object
+      repeated Secret secret = 26;
+
+      // vsphere_volume: list of object
+      repeated VsphereVolume vsphere_volume = 27 [json_name = "vsphere_volume"];
+
+      message AwsElasticBlockStore {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // partition: number
+        int64 partition = 2;
+
+        // read_only: bool
+        bool read_only = 3 [json_name = "read_only"];
+
+        // volume_id: string
+        string volume_id = 4 [json_name = "volume_id"];
+      }
+
+      message AzureDisk {
+        // caching_mode: string
+        string caching_mode = 1 [json_name = "caching_mode"];
+
+        // data_disk_uri: string
+        string data_disk_uri = 2 [json_name = "data_disk_uri"];
+
+        // disk_name: string
+        string disk_name = 3 [json_name = "disk_name"];
+
+        // fs_type: string
+        string fs_type = 4 [json_name = "fs_type"];
+
+        // kind: string
+        string kind = 5;
+
+        // read_only: bool
+        bool read_only = 6 [json_name = "read_only"];
+      }
+
+      message AzureFile {
+        // read_only: bool
+        bool read_only = 1 [json_name = "read_only"];
+
+        // secret_name: string
+        string secret_name = 2 [json_name = "secret_name"];
+
+        // secret_namespace: string
+        string secret_namespace = 3 [json_name = "secret_namespace"];
+
+        // share_name: string
+        string share_name = 4 [json_name = "share_name"];
+      }
+
+      message CephFs {
+        // monitors: set of string
+        repeated string monitors = 1;
+
+        // path: string
+        string path = 2;
+
+        // read_only: bool
+        bool read_only = 3 [json_name = "read_only"];
+
+        // secret_file: string
+        string secret_file = 4 [json_name = "secret_file"];
+
+        // secret_ref: list of object
+        repeated SecretRef secret_ref = 5 [json_name = "secret_ref"];
+
+        // user: string
+        string user = 6;
+
+        message SecretRef {
+          // name: string
+          string name = 1;
+
+          // namespace: string
+          string namespace = 2;
+        }
+      }
+
+      message Cinder {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // read_only: bool
+        bool read_only = 2 [json_name = "read_only"];
+
+        // volume_id: string
+        string volume_id = 3 [json_name = "volume_id"];
+      }
+
+      message ConfigMap {
+        // default_mode: string
+        string default_mode = 1 [json_name = "default_mode"];
+
+        // items: list of object
+        repeated Items items = 2;
+
+        // name: string
+        string name = 3;
+
+        // optional: bool
+        bool optional = 4;
+
+        message Items {
+          // key: string
+          string key = 1;
+
+          // mode: string
+          string mode = 2;
+
+          // path: string
+          string path = 3;
+        }
+      }
+
+      message Csi {
+        // driver: string
+        string driver = 1;
+
+        // fs_type: string
+        string fs_type = 2 [json_name = "fs_type"];
+
+        // node_publish_secret_ref: list of object
+        repeated NodePublishSecretRef node_publish_secret_ref = 3 [json_name = "node_publish_secret_ref"];
+
+        // read_only: bool
+        bool read_only = 4 [json_name = "read_only"];
+
+        // volume_attributes: map of string
+        map<string, string> volume_attributes = 5 [json_name = "volume_attributes"];
+
+        message NodePublishSecretRef {
+          // name: string
+          string name = 1;
+        }
+      }
+
+      message DownwardApi {
+        // default_mode: string
+        string default_mode = 1 [json_name = "default_mode"];
+
+        // items: list of object
+        repeated Items items = 2;
+
+        message Items {
+          // field_ref: list of object
+          repeated FieldRef field_ref = 1 [json_name = "field_ref"];
+
+          // mode: string
+          string mode = 2;
+
+          // path: string
+          string path = 3;
+
+          // resource_field_ref: list of object
+          repeated ResourceFieldRef resource_field_ref = 4 [json_name = "resource_field_ref"];
+
+          message FieldRef {
+            // api_version: string
+            string api_version = 1 [json_name = "api_version"];
+
+            // field_path: string
+            string field_path = 2 [json_name = "field_path"];
+          }
+
+          message ResourceFieldRef {
+            // container_name: string
+            string container_name = 1 [json_name = "container_name"];
+
+            // divisor: string
+            string divisor = 2;
+
+            // resource: string
+            string resource = 3;
+          }
+        }
+      }
+
+      message EmptyDir {
+        // medium: string
+        string medium = 1;
+
+        // size_limit: string
+        string size_limit = 2 [json_name = "size_limit"];
+      }
+
+      message Fc {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // lun: number
+        int64 lun = 2;
+
+        // read_only: bool
+        bool read_only = 3 [json_name = "read_only"];
+
+        // target_ww_ns: set of string
+        repeated string target_ww_ns = 4 [json_name = "target_ww_ns"];
+      }
+
+      message FlexVolume {
+        // driver: string
+        string driver = 1;
+
+        // fs_type: string
+        string fs_type = 2 [json_name = "fs_type"];
+
+        // options: map of string
+        map<string, string> options = 3;
+
+        // read_only: bool
+        bool read_only = 4 [json_name = "read_only"];
+
+        // secret_ref: list of object
+        repeated SecretRef secret_ref = 5 [json_name = "secret_ref"];
+
+        message SecretRef {
+          // name: string
+          string name = 1;
+
+          // namespace: string
+          string namespace = 2;
+        }
+      }
+
+      message Flocker {
+        // dataset_name: string
+        string dataset_name = 1 [json_name = "dataset_name"];
+
+        // dataset_uuid: string
+        string dataset_uuid = 2 [json_name = "dataset_uuid"];
+      }
+
+      message GcePersistentDisk {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // partition: number
+        int64 partition = 2;
+
+        // pd_name: string
+        string pd_name = 3 [json_name = "pd_name"];
+
+        // read_only: bool
+        bool read_only = 4 [json_name = "read_only"];
+      }
+
+      message GitRepo {
+        // directory: string
+        string directory = 1;
+
+        // repository: string
+        string repository = 2;
+
+        // revision: string
+        string revision = 3;
+      }
+
+      message Glusterfs {
+        // endpoints_name: string
+        string endpoints_name = 1 [json_name = "endpoints_name"];
+
+        // path: string
+        string path = 2;
+
+        // read_only: bool
+        bool read_only = 3 [json_name = "read_only"];
+      }
+
+      message HostPath {
+        // path: string
+        string path = 1;
+
+        // type: string
+        string type = 2;
+      }
+
+      message Iscsi {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // iqn: string
+        string iqn = 2;
+
+        // iscsi_interface: string
+        string iscsi_interface = 3 [json_name = "iscsi_interface"];
+
+        // lun: number
+        int64 lun = 4;
+
+        // read_only: bool
+        bool read_only = 5 [json_name = "read_only"];
+
+        // target_portal: string
+        string target_portal = 6 [json_name = "target_portal"];
+      }
+
+      message Local {
+        // path: string
+        string path = 1;
+      }
+
+      message Nfs {
+        // path: string
+        string path = 1;
+
+        // read_only: bool
+        bool read_only = 2 [json_name = "read_only"];
+
+        // server: string
+        string server = 3;
+      }
+
+      message PersistentVolumeClaim {
+        // claim_name: string
+        string claim_name = 1 [json_name = "claim_name"];
+
+        // read_only: bool
+        bool read_only = 2 [json_name = "read_only"];
+      }
+
+      message PhotonPersistentDisk {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // pd_id: string
+        string pd_id = 2 [json_name = "pd_id"];
+      }
+
+      message Projected {
+        // default_mode: string
+        string default_mode = 1 [json_name = "default_mode"];
+
+        // sources: list of object
+        repeated Sources sources = 2;
+
+        message Sources {
+          // config_map: list of object
+          repeated ConfigMap config_map = 1 [json_name = "config_map"];
+
+          // downward_api: list of object
+          repeated DownwardApi downward_api = 2 [json_name = "downward_api"];
+
+          // secret: list of object
+          repeated Secret secret = 3;
+
+          // service_account_token: list of object
+          repeated ServiceAccountToken service_account_token = 4 [json_name = "service_account_token"];
+
+          message ConfigMap {
+            // items: list of object
+            repeated Items items = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+
+            message Items {
+              // key: string
+              string key = 1;
+
+              // mode: string
+              string mode = 2;
+
+              // path: string
+              string path = 3;
+            }
+          }
+
+          message DownwardApi {
+            // items: list of object
+            repeated Items items = 1;
+
+            message Items {
+              // field_ref: list of object
+              repeated FieldRef field_ref = 1 [json_name = "field_ref"];
+
+              // mode: string
+              string mode = 2;
+
+              // path: string
+              string path = 3;
+
+              // resource_field_ref: list of object
+              repeated ResourceFieldRef resource_field_ref = 4 [json_name = "resource_field_ref"];
+
+              message FieldRef {
+                // api_version: string
+                string api_version = 1 [json_name = "api_version"];
+
+                // field_path: string
+                string field_path = 2 [json_name = "field_path"];
+              }
+
+              message ResourceFieldRef {
+                // container_name: string
+                string container_name = 1 [json_name = "container_name"];
+
+                // divisor: string
+                string divisor = 2;
+
+                // resource: string
+                string resource = 3;
+              }
+            }
+          }
+
+          message Secret {
+            // items: list of object
+            repeated Items items = 1;
+
+            // name: string
+            string name = 2;
+
+            // optional: bool
+            bool optional = 3;
+
+            message Items {
+              // key: string
+              string key = 1;
+
+              // mode: string
+              string mode = 2;
+
+              // path: string
+              string path = 3;
+            }
+          }
+
+          message ServiceAccountToken {
+            // audience: string
+            string audience = 1;
+
+            // expiration_seconds: number
+            int64 expiration_seconds = 2 [json_name = "expiration_seconds"];
+
+            // path: string
+            string path = 3;
+          }
+        }
+      }
+
+      message Quobyte {
+        // group: string
+        string group = 1;
+
+        // read_only: bool
+        bool read_only = 2 [json_name = "read_only"];
+
+        // registry: string
+        string registry = 3;
+
+        // user: string
+        string user = 4;
+
+        // volume: string
+        string volume = 5;
+      }
+
+      message Rbd {
+        // ceph_monitors: set of string
+        repeated string ceph_monitors = 1 [json_name = "ceph_monitors"];
+
+        // fs_type: string
+        string fs_type = 2 [json_name = "fs_type"];
+
+        // keyring: string
+        string keyring = 3;
+
+        // rados_user: string
+        string rados_user = 4 [json_name = "rados_user"];
+
+        // rbd_image: string
+        string rbd_image = 5 [json_name = "rbd_image"];
+
+        // rbd_pool: string
+        string rbd_pool = 6 [json_name = "rbd_pool"];
+
+        // read_only: bool
+        bool read_only = 7 [json_name = "read_only"];
+
+        // secret_ref: list of object
+        repeated SecretRef secret_ref = 8 [json_name = "secret_ref"];
+
+        message SecretRef {
+          // name: string
+          string name = 1;
+
+          // namespace: string
+          string namespace = 2;
+        }
+      }
+
+      message Secret {
+        // default_mode: string
+        string default_mode = 1 [json_name = "default_mode"];
+
+        // items: list of object
+        repeated Items items = 2;
+
+        // optional: bool
+        bool optional = 3;
+
+        // secret_name: string
+        string secret_name = 4 [json_name = "secret_name"];
+
+        message Items {
+          // key: string
+          string key = 1;
+
+          // mode: string
+          string mode = 2;
+
+          // path: string
+          string path = 3;
+        }
+      }
+
+      message VsphereVolume {
+        // fs_type: string
+        string fs_type = 1 [json_name = "fs_type"];
+
+        // volume_path: string
+        string volume_path = 2 [json_name = "volume_path"];
+      }
+    }
+  }
+
+  message Metadata {
+    // An unstructured key value map stored with the pod that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // Prefix, used by the server, to generate a unique name ONLY IF the `name` field has not been provided. This value will also be combined with a unique suffix. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#idempotency
+    string generate_name = 2 [json_name = "generate_name"];
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 3;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the pod. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 4;
+
+    // Name of the pod, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 5;
+
+    // Namespace defines the space within which name of the pod must be unique.
+    string namespace = 6;
+
+    // An opaque value that represents the internal version of this pod that can be used by clients to determine when pod has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 7 [json_name = "resource_version"];
+
+    // The unique in time and space value for this pod. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 8;
+  }
+}

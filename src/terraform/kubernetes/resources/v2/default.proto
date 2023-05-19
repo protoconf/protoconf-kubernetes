@@ -1,0 +1,136 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.resources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesDefaultServiceAccount version is 0
+message KubernetesDefaultServiceAccount {
+  // Enable automatic mounting of the service account token
+  bool automount_service_account_token = 1 [json_name = "automount_service_account_token"];
+
+  string default_secret_name = 2 [json_name = "default_secret_name"];
+
+  string id = 3;
+
+  repeated ImagePullSecret image_pull_secret = 4 [json_name = "image_pull_secret"];
+
+  Metadata metadata = 5;
+
+  repeated Secret secret = 6;
+
+  repeated Timeouts timeouts = 7;
+
+  map<string, string> for_each = 8 [json_name = "for_each"];
+
+  repeated string depends_on = 9 [json_name = "depends_on"];
+
+  int32 count = 10;
+
+  string provider = 11;
+
+  terraform.v1.Lifecycle lifecycle = 12;
+
+  message ImagePullSecret {
+    // Name of the referent. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 1;
+  }
+
+  message Metadata {
+    // An unstructured key value map stored with the service account that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 2;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the service account. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 3;
+
+    // Name of the service account, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 4;
+
+    // Namespace defines the space within which name of the service account must be unique.
+    string namespace = 5;
+
+    // An opaque value that represents the internal version of this service account that can be used by clients to determine when service account has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 6 [json_name = "resource_version"];
+
+    // The unique in time and space value for this service account. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 7;
+  }
+
+  message Secret {
+    // Name of the referent. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 1;
+  }
+
+  message Timeouts {
+    string create = 1;
+  }
+}
+
+// KubernetesDefaultServiceAccountV1 version is 0
+message KubernetesDefaultServiceAccountV1 {
+  // Enable automatic mounting of the service account token
+  bool automount_service_account_token = 1 [json_name = "automount_service_account_token"];
+
+  string default_secret_name = 2 [json_name = "default_secret_name"];
+
+  string id = 3;
+
+  repeated ImagePullSecret image_pull_secret = 4 [json_name = "image_pull_secret"];
+
+  Metadata metadata = 5;
+
+  repeated Secret secret = 6;
+
+  repeated Timeouts timeouts = 7;
+
+  map<string, string> for_each = 8 [json_name = "for_each"];
+
+  repeated string depends_on = 9 [json_name = "depends_on"];
+
+  int32 count = 10;
+
+  string provider = 11;
+
+  terraform.v1.Lifecycle lifecycle = 12;
+
+  message ImagePullSecret {
+    // Name of the referent. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 1;
+  }
+
+  message Metadata {
+    // An unstructured key value map stored with the service account that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 2;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the service account. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 3;
+
+    // Name of the service account, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 4;
+
+    // Namespace defines the space within which name of the service account must be unique.
+    string namespace = 5;
+
+    // An opaque value that represents the internal version of this service account that can be used by clients to determine when service account has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 6 [json_name = "resource_version"];
+
+    // The unique in time and space value for this service account. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 7;
+  }
+
+  message Secret {
+    // Name of the referent. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 1;
+  }
+
+  message Timeouts {
+    string create = 1;
+  }
+}

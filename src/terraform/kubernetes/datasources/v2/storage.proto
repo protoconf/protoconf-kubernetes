@@ -1,0 +1,144 @@
+syntax = "proto3";
+
+// Provider: kubernetes 2.20.0
+package terraform.kubernetes.datasources.v2;
+
+import "terraform/v1/meta.proto";
+
+// KubernetesStorageClass version is 0
+message KubernetesStorageClass {
+  // Indicates whether the storage class allow volume expand
+  bool allow_volume_expansion = 1 [json_name = "allow_volume_expansion"];
+
+  string id = 2;
+
+  // Persistent Volumes that are dynamically created by a storage class will have the mount options specified
+  repeated string mount_options = 3 [json_name = "mount_options"];
+
+  // The parameters for the provisioner that should create volumes of this storage class
+  map<string, string> parameters = 4;
+
+  // Indicates the type of the reclaim policy
+  string reclaim_policy = 5 [json_name = "reclaim_policy"];
+
+  // Indicates the type of the provisioner
+  string storage_provisioner = 6 [json_name = "storage_provisioner"];
+
+  // Indicates when volume binding and dynamic provisioning should occur
+  string volume_binding_mode = 7 [json_name = "volume_binding_mode"];
+
+  AllowedTopologies allowed_topologies = 8 [json_name = "allowed_topologies"];
+
+  Metadata metadata = 9;
+
+  map<string, string> for_each = 10 [json_name = "for_each"];
+
+  repeated string depends_on = 11 [json_name = "depends_on"];
+
+  int32 count = 12;
+
+  string provider = 13;
+
+  terraform.v1.Lifecycle lifecycle = 14;
+
+  message AllowedTopologies {
+    repeated MatchLabelExpressions match_label_expressions = 1 [json_name = "match_label_expressions"];
+
+    message MatchLabelExpressions {
+      // The label key that the selector applies to.
+      string key = 1;
+
+      // An array of string values. One value must match the label to be selected.
+      repeated string values = 2;
+    }
+  }
+
+  message Metadata {
+    // An unstructured key value map stored with the storage class that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 2;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the storage class. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 3;
+
+    // Name of the storage class, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 4;
+
+    // An opaque value that represents the internal version of this storage class that can be used by clients to determine when storage class has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 5 [json_name = "resource_version"];
+
+    // The unique in time and space value for this storage class. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 6;
+  }
+}
+
+// KubernetesStorageClassV1 version is 0
+message KubernetesStorageClassV1 {
+  // Indicates whether the storage class allow volume expand
+  bool allow_volume_expansion = 1 [json_name = "allow_volume_expansion"];
+
+  string id = 2;
+
+  // Persistent Volumes that are dynamically created by a storage class will have the mount options specified
+  repeated string mount_options = 3 [json_name = "mount_options"];
+
+  // The parameters for the provisioner that should create volumes of this storage class
+  map<string, string> parameters = 4;
+
+  // Indicates the type of the reclaim policy
+  string reclaim_policy = 5 [json_name = "reclaim_policy"];
+
+  // Indicates the type of the provisioner
+  string storage_provisioner = 6 [json_name = "storage_provisioner"];
+
+  // Indicates when volume binding and dynamic provisioning should occur
+  string volume_binding_mode = 7 [json_name = "volume_binding_mode"];
+
+  AllowedTopologies allowed_topologies = 8 [json_name = "allowed_topologies"];
+
+  Metadata metadata = 9;
+
+  map<string, string> for_each = 10 [json_name = "for_each"];
+
+  repeated string depends_on = 11 [json_name = "depends_on"];
+
+  int32 count = 12;
+
+  string provider = 13;
+
+  terraform.v1.Lifecycle lifecycle = 14;
+
+  message AllowedTopologies {
+    repeated MatchLabelExpressions match_label_expressions = 1 [json_name = "match_label_expressions"];
+
+    message MatchLabelExpressions {
+      // The label key that the selector applies to.
+      string key = 1;
+
+      // An array of string values. One value must match the label to be selected.
+      repeated string values = 2;
+    }
+  }
+
+  message Metadata {
+    // An unstructured key value map stored with the storage class that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+    map<string, string> annotations = 1;
+
+    // A sequence number representing a specific generation of the desired state.
+    int64 generation = 2;
+
+    // Map of string keys and values that can be used to organize and categorize (scope and select) the storage class. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels
+    map<string, string> labels = 3;
+
+    // Name of the storage class, must be unique. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names
+    string name = 4;
+
+    // An opaque value that represents the internal version of this storage class that can be used by clients to determine when storage class has changed. Read more: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+    string resource_version = 5 [json_name = "resource_version"];
+
+    // The unique in time and space value for this storage class. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
+    string uid = 6;
+  }
+}
