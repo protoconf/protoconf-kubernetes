@@ -255,5 +255,4 @@ util = module(
     Output=Output,
     Group=Group,
     Module=Module,
-    From=From,
 )

@@ -28,7 +28,7 @@ def Common(helper):
                 c.AddSecretConfigFiles("secret", data={"secret.txt": "world"}),
                 c.AddPort("protoconf_agent", 4300),
                 c.AddServicePort("port_test", 8000),
-                c.AddVolume("data", "/data")
+                c.AddVolume("data", "/data"),
             )
         ),
     )

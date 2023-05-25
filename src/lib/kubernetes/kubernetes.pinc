@@ -134,12 +134,13 @@ def Kubernetes(spec, name, *hooks):
                         return next(c)
 
                     return do
-                
+
                 def SetEnv(**envs):
                     def do(c, next):
                         for k, v in envs.items():
                             c.env.append(container_spec.Env(name=k.upper(), value=v))
                         return next(c)
+
                     return do
 
                 def AddConfigFiles(name, path="/configs", default_mode="0755", data={}):
@@ -155,8 +156,8 @@ def Kubernetes(spec, name, *hooks):
                         c.volume_mount.append(
                             container_spec.VolumeMount(name=name, mount_path=path)
                         )
-                        util.Terraform(
-                            util.From(tf),
+                        Chain(
+                            tf,
                             util.Resource(
                                 name,
                                 KubernetesConfigMap(
@@ -186,8 +187,8 @@ def Kubernetes(spec, name, *hooks):
                         c.volume_mount.append(
                             container_spec.VolumeMount(name=name, mount_path=path)
                         )
-                        util.Terraform(
-                            util.From(tf),
+                        Chain(
+                            tf,
                             util.Resource(
                                 name,
                                 KubernetesSecret(
@@ -249,23 +250,24 @@ def Kubernetes(spec, name, *hooks):
                                         ],
                                         selector=selector,
                                         cluster_ip="None" if headless else "",
-                                        type="NodePort"
-                                        if ingress_annotations
-                                        else "",
+                                        type="NodePort" if ingress_annotations else "",
                                     ),
                                 ),
                             ),
                         )
                         return next(c)
-                    return do
-                
-                def AddVolume(name, path, size="10Gi", storage_class="gp2"):
-                    def do(c, next):
-                        c.volume_mount.append(container_spec.VolumeMount(name=name, mount_path=path))
-                        Chain(msg, AddVolumeClaim(name, size, storage_class))
-                        return next(c)
+
                     return do
 
+                def AddVolume(name, path, size="10Gi", storage_class="gp2"):
+                    def do(c, next):
+                        c.volume_mount.append(
+                            container_spec.VolumeMount(name=name, mount_path=path)
+                        )
+                        Chain(msg, AddVolumeClaim(name, size, storage_class))
+                        return next(c)
+
+                    return do
 
                 container_util = struct(
                     SetName=SetName,
@@ -301,19 +303,7 @@ def Kubernetes(spec, name, *hooks):
 
         msg = helper.New(*[hook(helper) for hook in hooks])
 
-        tf = util.Terraform(util.From(tf), util.Resource(name, msg, *local_hooks))
-        return next(tf)
-
-    return do
-
-
-def KubernetesConfig(name, spec, *hooks):
-    def do(tf, next):
-        helper = Kubernetes(spec)
-        msg = helper.New(*[hook(helper) for hook in hooks])
-
-        tf = util.Terraform(util.From(tf), util.Resource(name, msg, *helper.hooks))
-
+        Chain(tf, util.Resource(name, msg, *local_hooks))
         return next(tf)
 
     return do
