@@ -14,14 +14,47 @@
           }
         }
       },
-      "kubernetes_deployment": {
+      "kubernetes_secret": {
+        "secret": {
+          "data": {
+            "secret.txt": "world"
+          },
+          "metadata": {
+            "name": "secret",
+            "namespace": "test"
+          }
+        }
+      },
+      "kubernetes_service": {
+        "port_test": {
+          "metadata": {
+            "name": "port_test",
+            "namespace": "test"
+          },
+          "spec": {
+            "selector": {
+              "port_name": "port_test"
+            },
+            "port": [
+              {
+                "name": "port_test",
+                "port": "8000",
+                "protocol": "TCP",
+                "target_port": "8000"
+              }
+            ]
+          }
+        }
+      },
+      "kubernetes_stateful_set": {
         "main": {
           "metadata": {
             "annotations": {
               "alb.ingress.kubernetes.io/scheme": "internet-facing"
             },
             "labels": {
-              "name": "app"
+              "name": "app",
+              "port_name": "port_test"
             },
             "name": "test",
             "namespace": "test"
@@ -30,13 +63,15 @@
             "replicas": "3",
             "selector": {
               "match_labels": {
-                "name": "app"
+                "name": "app",
+                "port_name": "port_test"
               }
             },
             "template": {
               "metadata": {
                 "labels": {
-                  "name": "app"
+                  "name": "app",
+                  "port_name": "port_test"
                 }
               },
               "spec": {
@@ -48,6 +83,24 @@
                     ],
                     "image": "ghcr.io/protoconf/protoconf:latest",
                     "name": "test",
+                    "env": [
+                      {
+                        "name": "HELLO",
+                        "value": "world"
+                      }
+                    ],
+                    "port": [
+                      {
+                        "container_port": "4300",
+                        "name": "protoconf_agent",
+                        "protocol": "TCP"
+                      },
+                      {
+                        "container_port": "8000",
+                        "name": "port_test",
+                        "protocol": "TCP"
+                      }
+                    ],
                     "volume_mount": [
                       {
                         "mount_path": "/configs",
@@ -56,6 +109,10 @@
                       {
                         "mount_path": "/secrets",
                         "name": "secret"
+                      },
+                      {
+                        "mount_path": "/data",
+                        "name": "data"
                       }
                     ]
                   }
@@ -77,18 +134,26 @@
                   }
                 ]
               }
-            }
-          }
-        }
-      },
-      "kubernetes_secret": {
-        "secret": {
-          "data": {
-            "secret.txt": "world"
-          },
-          "metadata": {
-            "name": "secret",
-            "namespace": "test"
+            },
+            "volume_claim_template": [
+              {
+                "metadata": {
+                  "name": "data",
+                  "namespace": "test"
+                },
+                "spec": {
+                  "access_modes": [
+                    "ReadWriteOnce"
+                  ],
+                  "storage_class_name": "gp2",
+                  "resources": {
+                    "requests": {
+                      "storage": "10Gi"
+                    }
+                  }
+                }
+              }
+            ]
           }
         }
       }

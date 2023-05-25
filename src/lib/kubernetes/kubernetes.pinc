@@ -1,9 +1,11 @@
 """
 libkubernetes
 """
+load("re.star", "re")
 load("//terraform/v1/util.pinc", "util")
 load("//terraform/kubernetes/resources/v2/config.proto", "KubernetesConfigMap")
 load("//terraform/kubernetes/resources/v2/secret.proto", "KubernetesSecret")
+load("//terraform/kubernetes/resources/v2/service.proto", "KubernetesService")
 
 
 def Chain(msg, *hooks):
@@ -132,6 +134,13 @@ def Kubernetes(spec, name, *hooks):
                         return next(c)
 
                     return do
+                
+                def SetEnv(**envs):
+                    def do(c, next):
+                        for k, v in envs.items():
+                            c.env.append(container_spec.Env(name=k.upper(), value=v))
+                        return next(c)
+                    return do
 
                 def AddConfigFiles(name, path="/configs", default_mode="0755", data={}):
                     def do(c, next):
@@ -159,9 +168,12 @@ def Kubernetes(spec, name, *hooks):
                             ),
                         )
                         return next(c)
+
                     return do
 
-                def AddSecretConfigFiles(name, path="/secrets", default_mode="0400", data={}):
+                def AddSecretConfigFiles(
+                    name, path="/secrets", default_mode="0400", data={}
+                ):
                     def do(c, next):
                         template.spec.volume.append(
                             template_spec.Volume(
@@ -187,14 +199,85 @@ def Kubernetes(spec, name, *hooks):
                             ),
                         )
                         return next(c)
+
                     return do
+
+                def AddPort(name, port, protocol="TCP"):
+                    def do(c, next):
+                        c.port.append(
+                            container_spec.Port(
+                                name=re.findall("[a-zA-Z].*[a-zA-Z0-9]", name[-15:])[0],
+                                container_port=port,
+                                protocol=protocol,
+                            )
+                        )
+                        return next(c)
+
+                    return do
+
+                def AddServicePort(
+                    name,
+                    port,
+                    protocol="TCP",
+                    selector={},
+                    ingress_annotations=None,
+                    headless=False,
+                    **overrides
+                ):
+                    def do(c, next):
+                        selector["port_name"] = name
+                        target_port = overrides.get("target_port", port)
+                        port_name = overrides.get("port_name", name)
+                        Chain(msg, SetLabels(**selector))
+                        Chain(c, AddPort(port_name, port, protocol))
+                        Chain(
+                            tf,
+                            util.Resource(
+                                name,
+                                KubernetesService(
+                                    metadata=KubernetesService.Metadata(
+                                        name=name, namespace=msg.metadata.namespace
+                                    ),
+                                    spec=KubernetesService.Spec(
+                                        port=[
+                                            KubernetesService.Spec.Port(
+                                                name=port_name,
+                                                port=port,
+                                                protocol=protocol,
+                                                target_port=str(target_port),
+                                            )
+                                        ],
+                                        selector=selector,
+                                        cluster_ip="None" if headless else "",
+                                        type="NodePort"
+                                        if ingress_annotations
+                                        else "",
+                                    ),
+                                ),
+                            ),
+                        )
+                        return next(c)
+                    return do
+                
+                def AddVolume(name, path, size="10Gi", storage_class="gp2"):
+                    def do(c, next):
+                        c.volume_mount.append(container_spec.VolumeMount(name=name, mount_path=path))
+                        Chain(msg, AddVolumeClaim(name, size, storage_class))
+                        return next(c)
+                    return do
+
+
                 container_util = struct(
                     SetName=SetName,
                     SetImage=SetImage,
                     SetCommand=SetCommand,
                     SetCommandArgs=SetCommandArgs,
+                    SetEnv=SetEnv,
                     AddConfigFiles=AddConfigFiles,
                     AddSecretConfigFiles=AddSecretConfigFiles,
+                    AddPort=AddPort,
+                    AddServicePort=AddServicePort,
+                    AddVolume=AddVolume,
                 )
                 container = Chain(
                     container_spec(), *[hook(container_util) for hook in hooks]

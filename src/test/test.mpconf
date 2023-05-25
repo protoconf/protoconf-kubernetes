@@ -23,8 +23,12 @@ def Common(helper):
                 c.SetName("test"),
                 c.SetImage("ghcr.io/protoconf/protoconf:latest"),
                 c.SetCommandArgs("agent", "-dev"),
+                c.SetEnv(hello="world"),
                 c.AddConfigFiles("test", data={"hello.txt": "world"}),
                 c.AddSecretConfigFiles("secret", data={"secret.txt": "world"}),
+                c.AddPort("protoconf_agent", 4300),
+                c.AddServicePort("port_test", 8000),
+                c.AddVolume("data", "/data")
             )
         ),
     )
@@ -32,7 +36,7 @@ def Common(helper):
 
 def main():
     return {
-        "deployment": util.Terraform(Kubernetes(KubernetesDeployment, "main", Common)),
+        "deployment": util.Terraform(Kubernetes(KubernetesStatefulSet, "main", Common)),
         # "statefulset": util.Terraform(
         #     util.Resource("main", statefulset.New(Common(statefulset)))
         # ),
