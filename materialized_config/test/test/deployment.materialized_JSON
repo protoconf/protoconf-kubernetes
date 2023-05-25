@@ -1,0 +1,97 @@
+{
+  "protoFile": "terraform/v1/terraform.proto",
+  "value": {
+    "@type": "type.googleapis.com/terraform.v1.Terraform",
+    "resource": {
+      "kubernetes_config_map": {
+        "test": {
+          "data": {
+            "hello.txt": "world"
+          },
+          "metadata": {
+            "name": "test",
+            "namespace": "test"
+          }
+        }
+      },
+      "kubernetes_deployment": {
+        "main": {
+          "metadata": {
+            "annotations": {
+              "alb.ingress.kubernetes.io/scheme": "internet-facing"
+            },
+            "labels": {
+              "name": "app"
+            },
+            "name": "test",
+            "namespace": "test"
+          },
+          "spec": {
+            "replicas": "3",
+            "selector": {
+              "match_labels": {
+                "name": "app"
+              }
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "name": "app"
+                }
+              },
+              "spec": {
+                "container": [
+                  {
+                    "args": [
+                      "agent",
+                      "-dev"
+                    ],
+                    "image": "ghcr.io/protoconf/protoconf:latest",
+                    "name": "test",
+                    "volume_mount": [
+                      {
+                        "mount_path": "/configs",
+                        "name": "test"
+                      },
+                      {
+                        "mount_path": "/secrets",
+                        "name": "secret"
+                      }
+                    ]
+                  }
+                ],
+                "volume": [
+                  {
+                    "name": "test",
+                    "config_map": {
+                      "default_mode": "0755",
+                      "name": "test"
+                    }
+                  },
+                  {
+                    "name": "secret",
+                    "secret": {
+                      "default_mode": "0400",
+                      "secret_name": "secret"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "kubernetes_secret": {
+        "secret": {
+          "data": {
+            "secret.txt": "world"
+          },
+          "metadata": {
+            "name": "secret",
+            "namespace": "test"
+          }
+        }
+      }
+    }
+  }
+}

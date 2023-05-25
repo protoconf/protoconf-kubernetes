@@ -1,0 +1,236 @@
+"""
+libkubernetes
+"""
+load("//terraform/v1/util.pinc", "util")
+load("//terraform/kubernetes/resources/v2/config.proto", "KubernetesConfigMap")
+load("//terraform/kubernetes/resources/v2/secret.proto", "KubernetesSecret")
+
+
+def Chain(msg, *hooks):
+    queue = list(hooks)
+    queue.append(lambda m, _: m)
+
+    def run_next(c):
+        next = queue.pop(0)
+        return next(c, run_next)
+
+    first = queue.pop(0)
+    return first(msg, run_next)
+
+
+def Kubernetes(spec, name, *hooks):
+    def do(tf, next):
+        local_hooks = []
+
+        def New(*hooks):
+            msg = spec()
+            msg.spec = spec.Spec(
+                template=spec.Spec.Template(
+                    spec=spec.Spec.Template.Spec(image_pull_secrets=[]),
+                    metadata=spec.Spec.Template.Metadata(),
+                ),
+                selector=spec.Spec.Selector(),
+            )
+            return Chain(msg, *hooks)
+
+        def SetName(name):
+            def do(msg, next):
+                if not msg.metadata:
+                    msg.metadata = spec.Metadata()
+                msg.metadata.name = name
+                return next(msg)
+
+            return do
+
+        def SetNamespace(name):
+            def do(msg, next):
+                if not msg.metadata:
+                    msg.metadata = spec.Metadata()
+                msg.metadata.namespace = name
+                return next(msg)
+
+            return do
+
+        def SetLabels(**kwargs):
+            def do(msg, next):
+                if not msg.metadata:
+                    msg.metadata = spec.Metadata()
+                msg.metadata.labels.update(kwargs)
+                msg.spec.selector.match_labels.update(kwargs)
+                msg.spec.template.metadata.labels.update(kwargs)
+                return next(msg)
+
+            return do
+
+        def SetAnnotations(**kwargs):
+            def do(msg, next):
+                if not msg.metadata:
+                    msg.metadata = spec.Metadata()
+                msg.metadata.annotations.update(kwargs)
+                return next(msg)
+
+            return do
+
+        def SetReplicas(num):
+            def do(msg, next):
+                msg.spec.replicas = str(num)
+                return next(msg)
+
+            return do
+
+        def AddVolumeClaim(name, size, storage_class="gp2"):
+            def do(msg, next):
+                msg.spec.volume_claim_template.append(
+                    spec.Spec.VolumeClaimTemplate(
+                        metadata=spec.Spec.VolumeClaimTemplate.Metadata(
+                            name=name, namespace=msg.metadata.namespace
+                        ),
+                        spec=spec.Spec.VolumeClaimTemplate.Spec(
+                            storage_class_name=storage_class,
+                            access_modes=["ReadWriteOnce"],
+                            resources=spec.Spec.VolumeClaimTemplate.Spec.Resources(
+                                requests=dict(storage=size)
+                            ),
+                        ),
+                    )
+                )
+                return next(msg)
+
+            return do
+
+        def AddContainer(*hooks):
+            template_spec = spec.Spec.Template.Spec
+            container_spec = template_spec.Container
+
+            def do(msg, next):
+                template = msg.spec.template
+
+                def SetName(name):
+                    def do(c, next):
+                        c.name = name
+                        return next(c)
+
+                    return do
+
+                def SetImage(name):
+                    def do(c, next):
+                        c.image = name
+                        return next(c)
+
+                    return do
+
+                def SetCommand(*args):
+                    def do(c, next):
+                        c.command = list(args)
+                        return next(c)
+
+                    return do
+
+                def SetCommandArgs(*args):
+                    def do(c, next):
+                        c.args = list(args)
+                        return next(c)
+
+                    return do
+
+                def AddConfigFiles(name, path="/configs", default_mode="0755", data={}):
+                    def do(c, next):
+                        template.spec.volume.append(
+                            template_spec.Volume(
+                                name=name,
+                                config_map=template_spec.Volume.ConfigMap(
+                                    default_mode=default_mode, name=name
+                                ),
+                            )
+                        )
+                        c.volume_mount.append(
+                            container_spec.VolumeMount(name=name, mount_path=path)
+                        )
+                        util.Terraform(
+                            util.From(tf),
+                            util.Resource(
+                                name,
+                                KubernetesConfigMap(
+                                    metadata=KubernetesConfigMap.Metadata(
+                                        name=name, namespace=msg.metadata.namespace
+                                    ),
+                                    data=data,
+                                ),
+                            ),
+                        )
+                        return next(c)
+                    return do
+
+                def AddSecretConfigFiles(name, path="/secrets", default_mode="0400", data={}):
+                    def do(c, next):
+                        template.spec.volume.append(
+                            template_spec.Volume(
+                                name=name,
+                                secret=template_spec.Volume.Secret(
+                                    default_mode=default_mode, secret_name=name
+                                ),
+                            )
+                        )
+                        c.volume_mount.append(
+                            container_spec.VolumeMount(name=name, mount_path=path)
+                        )
+                        util.Terraform(
+                            util.From(tf),
+                            util.Resource(
+                                name,
+                                KubernetesSecret(
+                                    metadata=KubernetesSecret.Metadata(
+                                        name=name, namespace=msg.metadata.namespace
+                                    ),
+                                    data=data,
+                                ),
+                            ),
+                        )
+                        return next(c)
+                    return do
+                container_util = struct(
+                    SetName=SetName,
+                    SetImage=SetImage,
+                    SetCommand=SetCommand,
+                    SetCommandArgs=SetCommandArgs,
+                    AddConfigFiles=AddConfigFiles,
+                    AddSecretConfigFiles=AddSecretConfigFiles,
+                )
+                container = Chain(
+                    container_spec(), *[hook(container_util) for hook in hooks]
+                )
+                msg.spec.template.spec.container.append(container)
+                return next(msg)
+
+            return do
+
+        helper = struct(
+            New=New,
+            SetName=SetName,
+            SetNamespace=SetNamespace,
+            SetLabels=SetLabels,
+            SetReplicas=SetReplicas,
+            SetAnnotations=SetAnnotations,
+            AddVolumeClaim=AddVolumeClaim,
+            AddContainer=AddContainer,
+            hooks=[],
+        )
+
+        msg = helper.New(*[hook(helper) for hook in hooks])
+
+        tf = util.Terraform(util.From(tf), util.Resource(name, msg, *local_hooks))
+        return next(tf)
+
+    return do
+
+
+def KubernetesConfig(name, spec, *hooks):
+    def do(tf, next):
+        helper = Kubernetes(spec)
+        msg = helper.New(*[hook(helper) for hook in hooks])
+
+        tf = util.Terraform(util.From(tf), util.Resource(name, msg, *helper.hooks))
+
+        return next(tf)
+
+    return do

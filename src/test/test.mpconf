@@ -1,0 +1,42 @@
+load("//terraform/v1/util.pinc", "util")
+load("//lib/kubernetes/kubernetes.pinc", "Kubernetes")
+load("//terraform/kubernetes/resources/v2/deployment.proto", "KubernetesDeployment")
+load("//terraform/kubernetes/resources/v2/stateful.proto", "KubernetesStatefulSet")
+load("//terraform/kubernetes/resources/v2/daemon.proto", "KubernetesDaemonSetV1")
+
+
+nullfunc = lambda a, b: b(a)
+
+
+def Common(helper):
+    # print("here")
+    return util.Group(
+        helper.SetName("test"),
+        helper.SetLabels(name="app"),
+        helper.SetNamespace("test"),
+        helper.SetReplicas(3),
+        helper.SetAnnotations(
+            **{"alb.ingress.kubernetes.io/scheme": "internet-facing"}
+        ),
+        helper.AddContainer(
+            lambda c: util.Group(
+                c.SetName("test"),
+                c.SetImage("ghcr.io/protoconf/protoconf:latest"),
+                c.SetCommandArgs("agent", "-dev"),
+                c.AddConfigFiles("test", data={"hello.txt": "world"}),
+                c.AddSecretConfigFiles("secret", data={"secret.txt": "world"}),
+            )
+        ),
+    )
+
+
+def main():
+    return {
+        "deployment": util.Terraform(Kubernetes(KubernetesDeployment, "main", Common)),
+        # "statefulset": util.Terraform(
+        #     util.Resource("main", statefulset.New(Common(statefulset)))
+        # ),
+        # "daemonset": util.Terraform(
+        #     util.Resource("main", daemonset.New(Common(daemonset)))
+        # ),
+    }
