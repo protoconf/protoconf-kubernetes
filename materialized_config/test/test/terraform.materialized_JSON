@@ -1,0 +1,52 @@
+{
+  "protoFile": "terraform/v1/terraform.proto",
+  "value": {
+    "@type": "type.googleapis.com/terraform.v1.Terraform",
+    "resource": {
+      "kubernetes_deployment": {
+        "protoconf-terraform": {
+          "metadata": {
+            "labels": {
+              "app": "pctf"
+            },
+            "name": "protoconf-terraform",
+            "namespace": "default"
+          },
+          "spec": {
+            "replicas": "1",
+            "selector": {
+              "match_labels": {
+                "app": "pctf"
+              }
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "app": "pctf"
+                }
+              },
+              "spec": {
+                "container": [
+                  {
+                    "args": [
+                      "run"
+                    ],
+                    "image": "ghcr.io/protoconf/protoconf-terraform:latest",
+                    "name": "protoconf-terraform"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "provider": {
+      "kubernetes": [
+        {
+          "config_path": "~/.kube/config"
+        }
+      ]
+    }
+  }
+}

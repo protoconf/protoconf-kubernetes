@@ -1,0 +1,10 @@
+{
+  "protoFile": "protoconf_terraform/config/v1/config.proto",
+  "value": {
+    "@type": "type.googleapis.com/protoconf_terraform.config.v1.SubscriptionConfig",
+    "keys": [
+      "test/test/webhook",
+      "test/test/etcd"
+    ]
+  }
+}

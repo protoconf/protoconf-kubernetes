@@ -1,0 +1,63 @@
+{
+  "protoFile": "terraform/v1/terraform.proto",
+  "value": {
+    "@type": "type.googleapis.com/terraform.v1.Terraform",
+    "resource": {
+      "kubernetes_deployment": {
+        "main": {
+          "metadata": {
+            "labels": {
+              "app": "protoconf-webhook"
+            },
+            "name": "protoconf-webhook",
+            "namespace": "default"
+          },
+          "spec": {
+            "replicas": "3",
+            "selector": {
+              "match_labels": {
+                "app": "protoconf-webhook"
+              }
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "app": "protoconf-webhook"
+                }
+              },
+              "spec": {
+                "container": [
+                  {
+                    "image": "protoconf/protoconf-webhook:v0",
+                    "name": "protoconf-webhook",
+                    "env": [
+                      {
+                        "name": "STORE",
+                        "value": "etcd"
+                      },
+                      {
+                        "name": "STORE_ADDRESS",
+                        "value": "etcd:2379"
+                      },
+                      {
+                        "name": "PREFIX",
+                        "value": "prod/"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "provider": {
+      "kubernetes": [
+        {
+          "config_path": "~/.kube/config"
+        }
+      ]
+    }
+  }
+}

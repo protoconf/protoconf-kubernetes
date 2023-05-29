@@ -10,43 +10,11 @@
           },
           "metadata": {
             "name": "test",
-            "namespace": "test"
+            "namespace": "default"
           }
         }
       },
-      "kubernetes_secret": {
-        "secret": {
-          "data": {
-            "secret.txt": "world"
-          },
-          "metadata": {
-            "name": "secret",
-            "namespace": "test"
-          }
-        }
-      },
-      "kubernetes_service": {
-        "port_test": {
-          "metadata": {
-            "name": "port_test",
-            "namespace": "test"
-          },
-          "spec": {
-            "selector": {
-              "port_name": "port_test"
-            },
-            "port": [
-              {
-                "name": "port_test",
-                "port": "8000",
-                "protocol": "TCP",
-                "target_port": "8000"
-              }
-            ]
-          }
-        }
-      },
-      "kubernetes_stateful_set": {
+      "kubernetes_deployment": {
         "main": {
           "metadata": {
             "annotations": {
@@ -54,24 +22,24 @@
             },
             "labels": {
               "name": "app",
-              "port_name": "port_test"
+              "port_name": "protoconf-agent"
             },
             "name": "test",
-            "namespace": "test"
+            "namespace": "default"
           },
           "spec": {
             "replicas": "3",
             "selector": {
               "match_labels": {
                 "name": "app",
-                "port_name": "port_test"
+                "port_name": "protoconf-agent"
               }
             },
             "template": {
               "metadata": {
                 "labels": {
                   "name": "app",
-                  "port_name": "port_test"
+                  "port_name": "protoconf-agent"
                 }
               },
               "spec": {
@@ -79,7 +47,10 @@
                   {
                     "args": [
                       "agent",
-                      "-dev"
+                      "-store",
+                      "etcd",
+                      "-store-address",
+                      "etcd:2379"
                     ],
                     "image": "ghcr.io/protoconf/protoconf:latest",
                     "name": "test",
@@ -92,12 +63,7 @@
                     "port": [
                       {
                         "container_port": "4300",
-                        "name": "protoconf_agent",
-                        "protocol": "TCP"
-                      },
-                      {
-                        "container_port": "8000",
-                        "name": "port_test",
+                        "name": "protoconf-agent",
                         "protocol": "TCP"
                       }
                     ],
@@ -109,10 +75,6 @@
                       {
                         "mount_path": "/secrets",
                         "name": "secret"
-                      },
-                      {
-                        "mount_path": "/data",
-                        "name": "data"
                       }
                     ]
                   }
@@ -134,29 +96,50 @@
                   }
                 ]
               }
+            }
+          }
+        }
+      },
+      "kubernetes_secret": {
+        "secret": {
+          "data": {
+            "secret.txt": "world"
+          },
+          "metadata": {
+            "name": "secret",
+            "namespace": "default"
+          }
+        }
+      },
+      "kubernetes_service": {
+        "protoconf-agent": {
+          "metadata": {
+            "name": "protoconf-agent",
+            "namespace": "default"
+          },
+          "spec": {
+            "cluster_ip": "None",
+            "selector": {
+              "port_name": "protoconf-agent"
             },
-            "volume_claim_template": [
+            "port": [
               {
-                "metadata": {
-                  "name": "data",
-                  "namespace": "test"
-                },
-                "spec": {
-                  "access_modes": [
-                    "ReadWriteOnce"
-                  ],
-                  "storage_class_name": "gp2",
-                  "resources": {
-                    "requests": {
-                      "storage": "10Gi"
-                    }
-                  }
-                }
+                "name": "protoconf-agent",
+                "port": "4300",
+                "protocol": "TCP",
+                "target_port": "4300"
               }
             ]
           }
         }
       }
+    },
+    "provider": {
+      "kubernetes": [
+        {
+          "config_path": "~/.kube/config"
+        }
+      ]
     }
   }
 }

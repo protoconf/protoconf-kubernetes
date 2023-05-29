@@ -1,0 +1,127 @@
+{
+  "protoFile": "terraform/v1/terraform.proto",
+  "value": {
+    "@type": "type.googleapis.com/terraform.v1.Terraform",
+    "resource": {
+      "kubernetes_service": {
+        "etcd": {
+          "metadata": {
+            "name": "etcd",
+            "namespace": "default"
+          },
+          "spec": {
+            "cluster_ip": "None",
+            "selector": {
+              "port_name": "etcd"
+            },
+            "port": [
+              {
+                "name": "client",
+                "port": "2379",
+                "protocol": "TCP",
+                "target_port": "2379"
+              }
+            ]
+          }
+        },
+        "etcd-client": {
+          "metadata": {
+            "name": "etcd-client",
+            "namespace": "default"
+          },
+          "spec": {
+            "selector": {
+              "port_name": "etcd-client"
+            },
+            "port": [
+              {
+                "name": "etcd-client",
+                "port": "2379",
+                "protocol": "TCP",
+                "target_port": "2379"
+              }
+            ]
+          }
+        }
+      },
+      "kubernetes_stateful_set": {
+        "etcd": {
+          "metadata": {
+            "labels": {
+              "port_name": "etcd"
+            },
+            "name": "etcd",
+            "namespace": "default"
+          },
+          "spec": {
+            "replicas": "3",
+            "service_name": "etcd",
+            "selector": {
+              "match_labels": {
+                "port_name": "etcd"
+              }
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "port_name": "etcd"
+                }
+              },
+              "spec": {
+                "container": [
+                  {
+                    "command": [
+                      "sh",
+                      "-c",
+                      "etcd --name $${HOSTNAME} --advertise-client-urls http://$${HOSTNAME}.etcd:2379 --initial-advertise-peer-urls http://$${HOSTNAME}:2380 --initial-cluster etcd-0=http://etcd-0.etcd:2380,etcd-1=http://etcd-1.etcd:2380,etcd-2=http://etcd-2.etcd:2380"
+                    ],
+                    "image": "quay.io/coreos/etcd:latest",
+                    "name": "etcd",
+                    "env": [
+                      {
+                        "name": "ETCD_LISTEN_PEER_URLS",
+                        "value": "http://0.0.0.0:2380"
+                      },
+                      {
+                        "name": "ETCD_LISTEN_CLIENT_URLS",
+                        "value": "http://0.0.0.0:2379"
+                      },
+                      {
+                        "name": "ETCD_DATA_DIR",
+                        "value": "/var/run/etcd/default.etcd"
+                      }
+                    ],
+                    "port": [
+                      {
+                        "container_port": "2379",
+                        "name": "etcd-client",
+                        "protocol": "TCP"
+                      },
+                      {
+                        "container_port": "2380",
+                        "name": "peer",
+                        "protocol": "TCP"
+                      },
+                      {
+                        "container_port": "2379",
+                        "name": "client",
+                        "protocol": "TCP"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "provider": {
+      "kubernetes": [
+        {
+          "config_path": "~/.kube/config"
+        }
+      ]
+    }
+  }
+}

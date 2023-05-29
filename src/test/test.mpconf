@@ -1,34 +1,28 @@
 load("//terraform/v1/util.pinc", "util")
-load("//lib/kubernetes/kubernetes.pinc", "Kubernetes")
-load("//terraform/kubernetes/resources/v2/deployment.proto", "KubernetesDeployment")
-load("//terraform/kubernetes/resources/v2/stateful.proto", "KubernetesStatefulSet")
-load("//terraform/kubernetes/resources/v2/daemon.proto", "KubernetesDaemonSetV1")
+load(
+    "//lib/kubernetes/kubernetes.pinc", "KubernetesDeployment", "KubernetesStatefulSet"
+)
+load("//terraform/kubernetes/provider/v2/kubernetes.proto", "Kubernetes")
+load("//protoconf_terraform/config/v1/config.proto", "SubscriptionConfig")
 
 
 nullfunc = lambda a, b: b(a)
 
 
 def Common(helper):
-    # print("here")
     return util.Group(
         helper.SetName("test"),
         helper.SetLabels(name="app"),
-        helper.SetNamespace("test"),
+        helper.SetNamespace("default"),
         helper.SetReplicas(3),
-        helper.SetAnnotations(
-            **{"alb.ingress.kubernetes.io/scheme": "internet-facing"}
-        ),
         helper.AddContainer(
             lambda c: util.Group(
                 c.SetName("test"),
                 c.SetImage("ghcr.io/protoconf/protoconf:latest"),
-                c.SetCommandArgs("agent", "-dev"),
-                c.SetEnv(hello="world"),
-                c.AddConfigFiles("test", data={"hello.txt": "world"}),
-                c.AddSecretConfigFiles("secret", data={"secret.txt": "world"}),
-                c.AddPort("protoconf_agent", 4300),
-                c.AddServicePort("port_test", 8000),
-                c.AddVolume("data", "/data"),
+                c.SetCommandArgs(
+                    "agent", "-store", "etcd", "-store-address", "etcd:2379"
+                ),
+                c.AddServicePort("protoconf-agent", 4300, headless=True),
             )
         ),
     )
@@ -36,11 +30,79 @@ def Common(helper):
 
 def main():
     return {
-        "deployment": util.Terraform(Kubernetes(KubernetesStatefulSet, "main", Common)),
-        # "statefulset": util.Terraform(
-        #     util.Resource("main", statefulset.New(Common(statefulset)))
-        # ),
-        # "daemonset": util.Terraform(
-        #     util.Resource("main", daemonset.New(Common(daemonset)))
-        # ),
+        "webhook": util.Terraform(
+            util.Provider(Kubernetes(config_path="~/.kube/config")),
+            KubernetesDeployment("main", lambda k: util.Group(
+                k.SetName("protoconf-webhook"),
+                k.SetLabels(app="protoconf-webhook"),
+                k.SetNamespace("default"),
+                k.SetReplicas(3),
+                k.AddContainer(
+                    lambda c: util.Group(
+                        c.SetName("protoconf-webhook"),
+                        c.SetImage("protoconf/protoconf-webhook:v0"),
+                        c.SetEnv(store="etcd", store_address="etcd:2379", prefix="prod/")
+                    )
+                )
+
+            )),
+        ),
+        "etcd": util.Terraform(
+            util.Provider(Kubernetes(config_path="~/.kube/config")),
+            KubernetesStatefulSet(
+                "etcd",
+                lambda k: util.Group(
+                    k.SetName("etcd"),
+                    k.SetServiceName("etcd"),
+                    k.SetNamespace("default"),
+                    k.SetReplicas(3),
+                    k.AddContainer(
+                        lambda c: util.Group(
+                            c.SetName("etcd"),
+                            c.SetImage("quay.io/coreos/etcd:latest"),
+                            c.AddServicePort("etcd-client", 2379),
+                            c.AddServicePort(
+                                "etcd", 2380, headless=True, port_name="peer"
+                            ),
+                            c.AddServicePort(
+                                "etcd", 2379, headless=True, port_name="client"
+                            ),
+                            c.SetEnv(
+                                etcd_listen_peer_urls="http://0.0.0.0:2380",
+                                etcd_listen_client_urls="http://0.0.0.0:2379",
+                                etcd_data_dir="/var/run/etcd/default.etcd",
+                            ),
+                            # c.AddVolume("data", "/var/run/etcd"),
+                            c.SetCommand(
+                                "sh",
+                                "-c",
+                                " ".join(
+                                    [
+                                        "etcd",
+                                        "--name",
+                                        "$${HOSTNAME}",
+                                        "--advertise-client-urls",
+                                        "http://$${HOSTNAME}.etcd:2379",
+                                        "--initial-advertise-peer-urls",
+                                        "http://$${HOSTNAME}:2380",
+                                        "--initial-cluster",
+                                        ",".join(
+                                            [
+                                                "etcd-{0}=http://etcd-{0}.etcd:2380".format(
+                                                    i
+                                                )
+                                                for i in range(0, 3)
+                                            ]
+                                        ),
+                                    ]
+                                ),
+                            ),
+                        )
+                    ),
+                ),
+            ),
+        ),
+        "watch": SubscriptionConfig(
+            keys=["test/test/webhook", "test/test/etcd"]
+        ),
     }

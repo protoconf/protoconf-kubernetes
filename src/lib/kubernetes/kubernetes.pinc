@@ -3,6 +3,17 @@ libkubernetes
 """
 load("re.star", "re")
 load("//terraform/v1/util.pinc", "util")
+load(
+    "//terraform/kubernetes/resources/v2/deployment.proto",
+    KDProto="KubernetesDeployment",
+)
+load(
+    "//terraform/kubernetes/resources/v2/stateful.proto",
+    KSProto="KubernetesStatefulSet",
+)
+load(
+    "//terraform/kubernetes/resources/v2/daemon.proto", KDSProto="KubernetesDaemonSetV1"
+)
 load("//terraform/kubernetes/resources/v2/config.proto", "KubernetesConfigMap")
 load("//terraform/kubernetes/resources/v2/secret.proto", "KubernetesSecret")
 load("//terraform/kubernetes/resources/v2/service.proto", "KubernetesService")
@@ -76,6 +87,13 @@ def Kubernetes(spec, name, *hooks):
         def SetReplicas(num):
             def do(msg, next):
                 msg.spec.replicas = str(num)
+                return next(msg)
+
+            return do
+
+        def SetServiceName(name):
+            def do(msg, next):
+                msg.spec.service_name = str(name)
                 return next(msg)
 
             return do
@@ -296,6 +314,7 @@ def Kubernetes(spec, name, *hooks):
             SetLabels=SetLabels,
             SetReplicas=SetReplicas,
             SetAnnotations=SetAnnotations,
+            SetServiceName=SetServiceName,
             AddVolumeClaim=AddVolumeClaim,
             AddContainer=AddContainer,
             hooks=[],
@@ -307,3 +326,15 @@ def Kubernetes(spec, name, *hooks):
         return next(tf)
 
     return do
+
+
+def KubernetesDeployment(name, *hooks):
+    return Kubernetes(KDProto, name, *hooks)
+
+
+def KubernetesStatefulSet(name, *hooks):
+    return Kubernetes(KSProto, name, *hooks)
+
+
+def KubernetesDaemonSet(name, *hooks):
+    return Kubernetes(KDSProto, name, *hooks)
