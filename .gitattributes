@@ -1,0 +1,5 @@
+*.pconf linguist-language=Starlark
+*.mpconf linguist-language=Starlark
+*.pinc linguist-language=Starlark
+*.proto-validator linguist-language=Starlark
+*.materialized_JSON linguist-generated
